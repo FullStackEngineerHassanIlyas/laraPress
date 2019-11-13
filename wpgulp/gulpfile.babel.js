@@ -24,7 +24,7 @@
  *
  * TODO: Customize your project in the wpgulp.js file.
  */
-const config = require( './wpgulp.config.js' );
+let config = require( './wpgulp.config.js' );
 
 /**
  * Load Plugins.
@@ -373,8 +373,10 @@ gulp.task('zipApp', async () => {
 	    		'../**',
 	    		'!../wpgulp',
 	    		'!../wpgulp/**',
+	    		'!../src',
+	    		'!../src/**',
 	    	])
-	        .pipe(zip(`greenstar_risk_rater-v${branch}.zip`))
+	        .pipe(zip(`${config.plugin_name}-v${branch}.zip`))
 	        .pipe(gulp.dest('dist'));		
 	});
 });
