@@ -20,8 +20,16 @@ class WP_shortcodes {
 	 * @param string $tag      shortcode tag
 	 * @param callable|array $callback callable function or array containing callback and object
 	 */
-	protected function add_shortcode($tag, $callback) {
+	protected function add_shortcode( $tag, $callback ) {
 		$this->shortcodes[$tag] = $callback;
+	}
+	/**
+	 * Remove shortcode tag
+	 * @param  string $tag shortcode tag to remove
+	 * @return void      nothing returns
+	 */
+	protected function remove_shortcode( $tag ) {
+		unset($this->shrotcodes[$tag]);
 	}
 	/**
 	 * add_shortcodes register all shortcodes

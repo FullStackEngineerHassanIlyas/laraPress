@@ -12,4 +12,7 @@ trait WP_shortcodes_handler {
 
 	use WP_view;
 
+	public function shortcode_cb($atts, $content) {
+		$this->view('admin/shortcodes/sample', ['sample' => 'blabla']);
+	}
 }
