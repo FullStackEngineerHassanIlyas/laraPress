@@ -1,4 +1,5 @@
 .gitattributes
 debug.log
 wpgulp/node_modules
+wpgulp/dist
 wp-plugin-framework.sublime-workspace
