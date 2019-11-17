@@ -3,7 +3,9 @@
 namespace app;
 
 use core\WP_Main;
+use app\classes\Menu_page;
 use app\classes\Hooks;
+use app\classes\Shortcodes;
 
 /**
  * App class
@@ -15,7 +17,8 @@ class App extends WP_Main {
 		$this->loadDependencies();
 
 		$hooks = new Hooks;
-		// exit(print_r($this->db->wpdb));
+		$menu = new Menu_page;
+		$shortcodes = new Shortcodes;
 	}
 
 	private function loadDependencies() {

@@ -37,6 +37,7 @@ const git = require('gulp-git');
 const gitignore = require('gulp-gitignore');
 const readlineSync = require('readline-sync');
 const fs = require('fs');
+const path = require('path');
 
 // CSS related plugins.
 const sass = require( 'gulp-sass' ); // Gulp plugin for Sass compilation.
@@ -361,23 +362,54 @@ gulp.task( 'translate', () => {
 /**
  * Zip the app
  */
-gulp.task('zipApp', async () => {
+gulp.task('zipApp', async (done) => {
 	function getGitBranch(cb) {
 		git.revParse({args:'--abbrev-ref HEAD'}, function (err, branch) {
 			cb(branch);
 		});
 	}
-	return await getGitBranch(branch => {
-	    return gulp
+	deleteFolderRecursive = function(path) {
+	    var files = [];
+	    if( fs.existsSync(path) ) {
+	        files = fs.readdirSync(path);
+	        files.forEach(function(file,index){
+	            var curPath = path + "/" + file;
+	            if(fs.lstatSync(curPath).isDirectory()) { // recurse
+	                deleteFolderRecursive(curPath);
+	            } else { // delete file
+	                fs.unlinkSync(curPath);
+	            }
+	        });
+	        fs.rmdirSync(path);
+	    }
+	};
+	return await getGitBranch(async (branch) => {
+		const _dev_name = readlineSync.question(`Please enter build name, Leave empty to use default '${config.plugin_name}' name.\n`);
+		const dev_name = _dev_name !== '' ? _dev_name : config.plugin_name;
+
+		const _dest = 'dist/'+dev_name;
+
+		fs.mkdir(_dest, {}, (err) => {if (err) console.log(err);});
+	    const result = gulp
 	    	.src([
-	    		'../**',
-	    		'!../wpgulp',
-	    		'!../wpgulp/**',
-	    		'!../src',
-	    		'!../src/**',
-	    	])
-	        .pipe(zip(`${config.plugin_name}-v${branch}.zip`))
-	        .pipe(gulp.dest('dist'));		
+	    		`../app/**/*`,
+	    		`../core/**/*`,
+	    		`../index.php`,
+	    	], {base: '..'})
+	        .pipe(gulp.dest(_dest))
+	        .on('end', function() {
+			    gulp
+		    	.src([
+		    		`${_dest}/**`,
+		    	], {base: `dist`})
+		        .pipe(zip(`${dev_name}-v${branch}.zip`))
+		        .pipe(gulp.dest('dist'))
+		        .on('end', function() {
+			        deleteFolderRecursive(_dest);
+		        });
+	        });
+
+	    return result;
 	});
 });
 

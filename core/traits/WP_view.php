@@ -10,7 +10,8 @@ trait WP_view {
 		$args = [];
 
 	protected function view( $view, $args = [] ) {		
-		extract($args);
+		if (!empty($args)) extract($args);
+		if (wp_is_json_request()) return;
 		include_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/app/views/'.$view.'.php';
 	}
 
