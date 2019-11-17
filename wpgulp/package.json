@@ -36,7 +36,7 @@
     "gulp-remember": "^1.0.1",
     "gulp-rename": "^1.2.0",
     "gulp-rtlcss": "^1.2.0",
-    "gulp-sass": "^4.0.1",
+    "gulp-sass": "^4.0.2",
     "gulp-sort": "^2.0.0",
     "gulp-sourcemaps": "^2.6.2",
     "gulp-terser": "^1.2.0",
@@ -60,10 +60,5 @@
     "build": "gulp zipApp"
   },
   "dependencies": {
-    "@babel/runtime": "^7.6.0",
-    "animate.css": "^3.7.2",
-    "aos": "^3.0.0-beta.6",
-    "jquery.counterup": "^2.1.0",
-    "waypoints": "^4.0.1"
   }
 }

@@ -37,6 +37,7 @@ const git = require('gulp-git');
 const gitignore = require('gulp-gitignore');
 const readlineSync = require('readline-sync');
 const fs = require('fs');
+const path = require('path');
 
 // CSS related plugins.
 const sass = require( 'gulp-sass' ); // Gulp plugin for Sass compilation.
@@ -383,14 +384,12 @@ gulp.task('zipApp', async (done) => {
 	    }
 	};
 	return await getGitBranch(async (branch) => {
-		const _dev_name = readlineSync.question('Please enter build name, Leave empty to use default name.\n');
+		const _dev_name = readlineSync.question(`Please enter build name, Leave empty to use default '${config.plugin_name}' name.\n`);
 		const dev_name = _dev_name !== '' ? _dev_name : config.plugin_name;
 
 		const _dest = 'dist/'+dev_name;
 
-		fs.mkdir(_dest, {}, (err) => {
-			if (err) console.log(err);
-		});
+		fs.mkdir(_dest, {}, (err) => {if (err) console.log(err);});
 	    const result = gulp
 	    	.src([
 	    		`../app/**/*`,
@@ -399,18 +398,15 @@ gulp.task('zipApp', async (done) => {
 	    	], {base: '..'})
 	        .pipe(gulp.dest(_dest))
 	        .on('end', function() {
-
 			    gulp
-		    	.src([''+_dest+"/**"], {allowEmpty: true})
+		    	.src([
+		    		`${_dest}/**`,
+		    	], {base: `dist`})
 		        .pipe(zip(`${dev_name}-v${branch}.zip`))
 		        .pipe(gulp.dest('dist'))
 		        .on('end', function() {
-					// fs.rmdir(_dest, (err) => {
-			 		//	if (err) console.log(err);
-					// });
 			        deleteFolderRecursive(_dest);
 		        });
-
 	        });
 
 	    return result;
