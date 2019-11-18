@@ -1,9 +1,9 @@
 <?php 
 
-namespace app\classes;
+namespace _NAMESPACE_\app\classes;
 
-use core\classes\WP_shortcodes;
-use app\traits\WP_shortcodes_handler;
+use _NAMESPACE_\core\classes\WP_shortcodes;
+use _NAMESPACE_\app\traits\WP_shortcodes_handler;
 
 /**
  * Shortcodes

@@ -120,38 +120,38 @@ const reload = done => {
  *    6. Minifies the CSS file and generates style.min.css
  *    7. Injects CSS or reloads the browser via browserSync
  */
- gulp.task( 'styles', () => {
- 	return gulp
- 	.src( config.styleSRC, { allowEmpty: true })
- 	.pipe( plumber( errorHandler ) )
- 	.pipe( sourcemaps.init() )
- 	.pipe(
- 		sass({
- 			errLogToConsole: config.errLogToConsole,
- 			outputStyle: config.outputStyle,
- 			precision: config.precision
- 		})
- 		)
- 	.on( 'error', sass.logError )
- 	.pipe( sourcemaps.write({ includeContent: false }) )
- 	.pipe( sourcemaps.init({ loadMaps: true }) )
- 	.pipe( autoprefixer( config.BROWSERS_LIST ) )
- 	.pipe( sourcemaps.write( './' ) )
- 	.pipe(rename(config.styleFile+'.css'))
-		.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
-		.pipe( gulp.dest( config.styleDestination ) )
-		.pipe( filter( '**/*.css' ) ) // Filtering stream to only css files.
-		.pipe( mmq({ log: true }) ) // Merge Media Queries only for .min.css version.
-		.pipe( browserSync.stream() ) // Reloads style.css if that is enqueued.
-		// .pipe( minifycss({ maxLineLen: 10 }) )
-		.pipe(cssmin())
-		.pipe(rename({ basename: config.styleFile, suffix: '.min' }))
-		.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
-		.pipe( gulp.dest( config.styleDestination ) )
-		.pipe( filter( '**/*.css' ) ) // Filtering stream to only css files.
-		.pipe( browserSync.stream() ) // Reloads style.min.css if that is enqueued.
-		.pipe( notify({ message: '\n\n✅  ===> STYLES — completed!\n', onLast: true }) );
-	});
+gulp.task( 'styles', () => {
+	return gulp
+	.src( config.styleSRC, { allowEmpty: true })
+	.pipe( plumber( errorHandler ) )
+	.pipe( sourcemaps.init() )
+	.pipe(
+		sass({
+			errLogToConsole: config.errLogToConsole,
+			outputStyle: config.outputStyle,
+			precision: config.precision
+		})
+		)
+	.on( 'error', sass.logError )
+	.pipe( sourcemaps.write({ includeContent: false }) )
+	.pipe( sourcemaps.init({ loadMaps: true }) )
+	.pipe( autoprefixer( config.BROWSERS_LIST ) )
+	.pipe( sourcemaps.write( './' ) )
+	.pipe(rename(config.styleFile+'.css'))
+	.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
+	.pipe( gulp.dest( config.styleDestination ) )
+	.pipe( filter( '**/*.css' ) ) // Filtering stream to only css files.
+	.pipe( mmq({ log: true }) ) // Merge Media Queries only for .min.css version.
+	.pipe( browserSync.stream() ) // Reloads style.css if that is enqueued.
+	// .pipe( minifycss({ maxLineLen: 10 }) )
+	.pipe(cssmin())
+	.pipe(rename({ basename: config.styleFile, suffix: '.min' }))
+	.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
+	.pipe( gulp.dest( config.styleDestination ) )
+	.pipe( filter( '**/*.css' ) ) // Filtering stream to only css files.
+	.pipe( browserSync.stream() ) // Reloads style.min.css if that is enqueued.
+	.pipe( notify({ message: '\n\n✅  ===> STYLES — completed!\n', onLast: true }) );
+});
 
 /**
  * Task: `stylesRTL`.
@@ -168,38 +168,38 @@ const reload = done => {
  *    8. Minifies the CSS file and generates style-rtl.min.css
  *    9. Injects CSS or reloads the browser via browserSync
  */
- gulp.task( 'stylesRTL', () => {
- 	return gulp
- 	.src( config.styleSRC, { allowEmpty: true })
- 	.pipe( plumber( errorHandler ) )
- 	.pipe( sourcemaps.init() )
- 	.pipe(
- 		sass({
- 			errLogToConsole: config.errLogToConsole,
- 			outputStyle: config.outputStyle,
- 			precision: config.precision
- 		})
- 		)
- 	.on( 'error', sass.logError )
- 	.pipe( sourcemaps.write({ includeContent: false }) )
- 	.pipe( sourcemaps.init({ loadMaps: true }) )
- 	.pipe( autoprefixer( config.BROWSERS_LIST ) )
-		.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
-		.pipe( rename({ suffix: '-rtl' }) ) // Append "-rtl" to the filename.
-		.pipe( rtlcss() ) // Convert to RTL.
-		.pipe( sourcemaps.write( './' ) ) // Output sourcemap for style-rtl.css.
-		.pipe( gulp.dest( config.styleDestination ) )
-		.pipe( filter( '**/*.css' ) ) // Filtering stream to only css files.
-		.pipe( browserSync.stream() ) // Reloads style.css or style-rtl.css, if that is enqueued.
-		.pipe( mmq({ log: true }) ) // Merge Media Queries only for .min.css version.
-		.pipe( rename({ suffix: '.min' }) )
-		.pipe( minifycss({ maxLineLen: 10 }) )
-		.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
-		.pipe( gulp.dest( config.styleDestination ) )
-		.pipe( filter( '**/*.css' ) ) // Filtering stream to only css files.
-		.pipe( browserSync.stream() ) // Reloads style.css or style-rtl.css, if that is enqueued.
-		.pipe( notify({ message: '\n\n✅  ===> STYLES RTL — completed!\n', onLast: true }) );
-	});
+gulp.task( 'stylesRTL', () => {
+	return gulp
+	.src( config.styleSRC, { allowEmpty: true })
+	.pipe( plumber( errorHandler ) )
+	.pipe( sourcemaps.init() )
+	.pipe(
+		sass({
+			errLogToConsole: config.errLogToConsole,
+			outputStyle: config.outputStyle,
+			precision: config.precision
+		})
+		)
+	.on( 'error', sass.logError )
+	.pipe( sourcemaps.write({ includeContent: false }) )
+	.pipe( sourcemaps.init({ loadMaps: true }) )
+	.pipe( autoprefixer( config.BROWSERS_LIST ) )
+	.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
+	.pipe( rename({ suffix: '-rtl' }) ) // Append "-rtl" to the filename.
+	.pipe( rtlcss() ) // Convert to RTL.
+	.pipe( sourcemaps.write( './' ) ) // Output sourcemap for style-rtl.css.
+	.pipe( gulp.dest( config.styleDestination ) )
+	.pipe( filter( '**/*.css' ) ) // Filtering stream to only css files.
+	.pipe( browserSync.stream() ) // Reloads style.css or style-rtl.css, if that is enqueued.
+	.pipe( mmq({ log: true }) ) // Merge Media Queries only for .min.css version.
+	.pipe( rename({ suffix: '.min' }) )
+	.pipe( minifycss({ maxLineLen: 10 }) )
+	.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
+	.pipe( gulp.dest( config.styleDestination ) )
+	.pipe( filter( '**/*.css' ) ) // Filtering stream to only css files.
+	.pipe( browserSync.stream() ) // Reloads style.css or style-rtl.css, if that is enqueued.
+	.pipe( notify({ message: '\n\n✅  ===> STYLES RTL — completed!\n', onLast: true }) );
+});
 
 /**
  * Task: `vendorsJS`.
@@ -212,38 +212,38 @@ const reload = done => {
  *     3. Renames the JS file with suffix .min.js
  *     4. Uglifes/Minifies the JS file and generates vendors.min.js
  */
- gulp.task( 'vendorsJS', () => {
- 	return gulp
-		.src( config.jsVendorSRC, { since: gulp.lastRun( 'vendorsJS' ) }) // Only run on changed files.
-		.pipe( plumber( errorHandler ) )
-		.pipe( // here uncaaught error require is not defined
-			babel({
-				presets: [
-				[
-						'modern-browsers', // Preset to compile your modern JS to ES5.
-						{
-							targets: { browsers: config.BROWSERS_LIST } // Target browser list to support.
-						}
-						]
-						],
-				// plugins: ['@babel/transform-runtime']
-			})
-			)
-		.pipe( remember( 'vendorsJS' ) ) // Bring all files back to stream.
-		.pipe( concat( config.jsVendorFile + '.js' ) )
-		.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
-		.pipe( gulp.dest( config.jsVendorDestination ) )
-		.pipe(
-			rename({
-				basename: config.jsVendorFile,
-				suffix: '.min'
-			})
-			)
-		.pipe( terser() )
-		.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
-		.pipe( gulp.dest( config.jsVendorDestination ) )
-		.pipe( notify({ message: '\n\n✅  ===> '+config.jsVendorFile+' JS — completed!\n', onLast: true }) );
-	});
+gulp.task( 'vendorsJS', () => {
+	return gulp
+	.src( config.jsVendorSRC, { since: gulp.lastRun( 'vendorsJS' ) }) // Only run on changed files.
+	.pipe( plumber( errorHandler ) )
+	.pipe( // here uncaaught error require is not defined
+		babel({
+			presets: [
+			[
+					'modern-browsers', // Preset to compile your modern JS to ES5.
+					{
+						targets: { browsers: config.BROWSERS_LIST } // Target browser list to support.
+					}
+					]
+					],
+			// plugins: ['@babel/transform-runtime']
+		})
+		)
+	.pipe( remember( 'vendorsJS' ) ) // Bring all files back to stream.
+	.pipe( concat( config.jsVendorFile + '.js' ) )
+	.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
+	.pipe( gulp.dest( config.jsVendorDestination ) )
+	.pipe(
+		rename({
+			basename: config.jsVendorFile,
+			suffix: '.min'
+		})
+		)
+	.pipe( terser() )
+	.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
+	.pipe( gulp.dest( config.jsVendorDestination ) )
+	.pipe( notify({ message: '\n\n✅  ===> '+config.jsVendorFile+' JS — completed!\n', onLast: true }) );
+});
 
 /**
  * Task: `customJS`.
@@ -256,37 +256,37 @@ const reload = done => {
  *     3. Renames the JS file with suffix .min.js
  *     4. Uglifes/Minifies the JS file and generates custom.min.js
  */
- gulp.task( 'customJS', () => {
- 	return gulp
-		.src( config.jsCustomSRC, { since: gulp.lastRun( 'customJS' ) }) // Only run on changed files.
-		.pipe( plumber( errorHandler ) )
-		.pipe(
-			babel({
-				presets: [
-				[
-						'@babel/preset-env', // Preset to compile your modern JS to ES5.
-						{
-							targets: { browsers: config.BROWSERS_LIST } // Target browser list to support.
-						}
-						]
-						]
-					})
-			)
-		.pipe( remember( config.jsCustomSRC ) ) // Bring all files back to stream.
-		.pipe( concat( config.jsCustomFile + '.js' ) )
-		.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
-		.pipe( gulp.dest( config.jsCustomDestination ) )
-		.pipe(
-			rename({
-				basename: config.jsCustomFile,
-				suffix: '.min'
-			})
-			)
-		.pipe( uglify() )
-		.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
-		.pipe( gulp.dest( config.jsCustomDestination ) )
-		.pipe( notify({ message: '\n\n✅  ===> '+config.jsCustomFile+' JS — completed!\n', onLast: true }) );
-	});
+gulp.task( 'customJS', () => {
+	return gulp
+	.src( config.jsCustomSRC, { since: gulp.lastRun( 'customJS' ) }) // Only run on changed files.
+	.pipe( plumber( errorHandler ) )
+	.pipe(
+		babel({
+			presets: [
+			[
+					'@babel/preset-env', // Preset to compile your modern JS to ES5.
+					{
+						targets: { browsers: config.BROWSERS_LIST } // Target browser list to support.
+					}
+					]
+					]
+				})
+		)
+	.pipe( remember( config.jsCustomSRC ) ) // Bring all files back to stream.
+	.pipe( concat( config.jsCustomFile + '.js' ) )
+	.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
+	.pipe( gulp.dest( config.jsCustomDestination ) )
+	.pipe(
+		rename({
+			basename: config.jsCustomFile,
+			suffix: '.min'
+		})
+		)
+	.pipe( uglify() )
+	.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
+	.pipe( gulp.dest( config.jsCustomDestination ) )
+	.pipe( notify({ message: '\n\n✅  ===> '+config.jsCustomFile+' JS — completed!\n', onLast: true }) );
+});
 
 /**
  * Task: `images`.
@@ -304,24 +304,24 @@ const reload = done => {
  * Read the following to change these options.
  * @link https://github.com/sindresorhus/gulp-imagemin
  */
- gulp.task( 'images', () => {
- 	return gulp
- 	.src( config.imgSRC )
- 	.pipe(
- 		cache(
- 			imagemin([
- 				imagemin.gifsicle({ interlaced: true }),
- 				imagemin.jpegtran({ progressive: true }),
-					imagemin.optipng({ optimizationLevel: 3 }), // 0-7 low-high.
-					imagemin.svgo({
-						plugins: [ { removeViewBox: true }, { cleanupIDs: false } ]
-					})
-					])
- 			)
- 		)
- 	.pipe( gulp.dest( config.imgDST ) )
- 	.pipe( notify({ message: '\n\n✅  ===> IMAGES — completed!\n', onLast: true }) );
- });
+gulp.task( 'images', () => {
+	return gulp
+	.src( config.imgSRC )
+	.pipe(
+		cache(
+			imagemin([
+				imagemin.gifsicle({ interlaced: true }),
+				imagemin.jpegtran({ progressive: true }),
+				imagemin.optipng({ optimizationLevel: 3 }), // 0-7 low-high.
+				imagemin.svgo({
+					plugins: [ { removeViewBox: true }, { cleanupIDs: false } ]
+				})
+				])
+			)
+		)
+	.pipe( gulp.dest( config.imgDST ) )
+	.pipe( notify({ message: '\n\n✅  ===> IMAGES — completed!\n', onLast: true }) );
+});
 
 /**
  * Task: `clear-images-cache`.
@@ -329,9 +329,9 @@ const reload = done => {
  * Deletes the images cache. By running the next "images" task,
  * each image will be regenerated.
  */
- gulp.task( 'clearCache', function( done ) {
- 	return cache.clearAll( done );
- });
+gulp.task( 'clearCache', function( done ) {
+	return cache.clearAll( done );
+});
 
 /**
  * WP POT Translation File Generator.
@@ -342,76 +342,76 @@ const reload = done => {
  * 3. Applies wpPot with the variable set at the top of this file
  * 4. Generate a .pot file of i18n that can be used for l10n to build .mo file
  */
- gulp.task( 'translate', () => {
- 	return gulp
- 	.src( config.watchPhp )
- 	.pipe( sort() )
- 	.pipe(
- 		wpPot({
- 			domain: config.textDomain,
- 			package: config.packageName,
- 			bugReport: config.bugReport,
- 			lastTranslator: config.lastTranslator,
- 			team: config.team
- 		})
- 		)
- 	.pipe( gulp.dest( config.translationDestination + '/' + config.translationFile ) )
- 	.pipe( notify({ message: '\n\n✅  ===> TRANSLATE — completed!\n', onLast: true }) );
- });
+gulp.task( 'translate', () => {
+	return gulp
+	.src( config.watchPhp )
+	.pipe( sort() )
+	.pipe(
+		wpPot({
+			domain: config.textDomain,
+			package: config.packageName,
+			bugReport: config.bugReport,
+			lastTranslator: config.lastTranslator,
+			team: config.team
+		})
+		)
+	.pipe( gulp.dest( config.translationDestination + '/' + config.translationFile ) )
+	.pipe( notify({ message: '\n\n✅  ===> TRANSLATE — completed!\n', onLast: true }) );
+});
 
 /**
  * Zip the app
  */
- gulp.task('zipApp', async (done) => {
- 	function getGitBranch(cb) {
- 		git.revParse({args:'--abbrev-ref HEAD'}, function (err, branch) {
- 			cb(branch);
- 		});
- 	}
- 	deleteFolderRecursive = function(path) {
- 		var files = [];
- 		if( fs.existsSync(path) ) {
- 			files = fs.readdirSync(path);
- 			files.forEach(function(file,index){
- 				var curPath = path + "/" + file;
-	            if(fs.lstatSync(curPath).isDirectory()) { // recurse
-	            	deleteFolderRecursive(curPath);
-	            } else { // delete file
-	            	fs.unlinkSync(curPath);
-	            }
-	        });
- 			fs.rmdirSync(path);
- 		}
- 	};
- 	return await getGitBranch(async (branch) => {
- 		const _dev_name = readlineSync.question(`Please enter build name, Leave empty to use default '${config.plugin_name}' name.\n`);
- 		const dev_name = _dev_name !== '' ? _dev_name : config.plugin_name;
+gulp.task('zipApp', async (done) => {
+	function getGitBranch(cb) {
+		git.revParse({args:'--abbrev-ref HEAD'}, function (err, branch) {
+			cb(branch);
+		});
+	}
+	deleteFolderRecursive = function(path) {
+		var files = [];
+		if( fs.existsSync(path) ) {
+			files = fs.readdirSync(path);
+			files.forEach(function(file,index){
+				var curPath = path + "/" + file;
+            if(fs.lstatSync(curPath).isDirectory()) { // recurse
+            	deleteFolderRecursive(curPath);
+            } else { // delete file
+            	fs.unlinkSync(curPath);
+            }
+        });
+			fs.rmdirSync(path);
+		}
+	};
+	return await getGitBranch(async (branch) => {
+		const _dev_name = readlineSync.question(`Please enter build name, Leave empty to use default '${config.plugin_name}' name.\n`);
+		const dev_name = _dev_name !== '' ? _dev_name : config.plugin_name;
 
- 		const _dest = 'dist/'+dev_name;
+		const _dest = 'dist/'+dev_name;
 
- 		fs.mkdir(_dest, {}, (err) => {if (err) console.log(err);});
- 		const result = gulp
- 		.src([
- 			`../app/**/*`,
- 			`../core/**/*`,
- 			`../index.php`,
- 			], {base: '..'})
- 		.pipe(gulp.dest(_dest))
- 		.on('end', function() {
- 			gulp
- 			.src([
- 				`${_dest}/**`,
- 				], {base: `dist`})
- 			.pipe(zip(`${dev_name}-v${branch}.zip`))
- 			.pipe(gulp.dest('dist'))
- 			.on('end', function() {
- 				deleteFolderRecursive(_dest);
- 			});
- 		});
+		fs.mkdir(_dest, {}, (err) => {if (err) console.log(err);});
+		const result = gulp
+		.src([
+			`../app/**/*`,
+			`../core/**/*`,
+			`../index.php`,
+			], {base: '..'})
+		.pipe(gulp.dest(_dest))
+		.on('end', function() {
+			gulp
+			.src([
+				`${_dest}/**`,
+				], {base: `dist`})
+			.pipe(zip(`${dev_name}-v${branch}.zip`))
+			.pipe(gulp.dest('dist'))
+			.on('end', function() {
+				deleteFolderRecursive(_dest);
+			});
+		});
 
- 		return result;
- 	});
- });
+		return result;
+	});
+});
 
 // Git tasks
 /**
@@ -464,7 +464,7 @@ gulp.task('checkout', function( done ) {
 /**
  * Set app name
  */
-gulp.task('setApp', async function( done ) {
+gulp.task('setup', async function( done ) {
 	let app_name = readlineSync.question('Please enter Plugin Name...\n');
 	
 	function walkDir(dir, callback) {
@@ -478,21 +478,25 @@ gulp.task('setApp', async function( done ) {
 	};
 
 	const appDirs = ['app', 'core'];
+	const replacedName = app_name.replace(/ /g, '_').toUpperCase();
 
 	for (let dir of appDirs) {
 
 		walkDir(`${config.root}/${dir}`, function(filePath) {
 			if (path.parse(filePath).ext == '.php') {
 				const fileContents = fs.readFileSync(filePath, 'utf8');
-				let newData = fileContents.replace('PLUGIN_NAME', app_name.replace(' ', '_').toUpperCase());
-				fs.writeFileSync(filePath, newData)
-	  			console.log(filePath);
+				let fileContentsUpdated = fileContents.replace(/PLUGIN_NAME/g, replacedName+'_PLUGIN');
+					fileContentsUpdated = fileContentsUpdated.replace(/_NAMESPACE_/g, app_name.replace(/ /g, '_').toLowerCase());
+				fs.writeFileSync(filePath, fileContentsUpdated);
 			}
 		});
 
 	}
-
-	
+	let indexFileContent = fs.readFileSync(config.root+'/index.php', "utf-8");
+		indexFileContentUpdated = indexFileContent.replace(/Plugin_Name/g, app_name);
+		indexFileContentUpdated = indexFileContentUpdated.replace(/PLUGIN_NAME/g, replacedName+'_PLUGIN');
+		indexFileContentUpdated = indexFileContentUpdated.replace(/_NAMESPACE_/g, app_name.replace(/ /g, '_').toLowerCase());
+		fs.writeFileSync(config.root+'/index.php', indexFileContentUpdated);
 });
 
 /**
