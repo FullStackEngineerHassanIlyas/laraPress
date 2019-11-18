@@ -50,7 +50,7 @@ let config = {
 	watchStyles: root+'/src/public/scss/**/*.scss', // Path to all *.scss files inside css folder and inside them.
 	watchJsVendor: root+'/src/public/js/vendor/*.js', // Path to all vendor JS files.
 	watchJsCustom: root+'/src/public/js/custom/*.js', // Path to all custom JS files.
-	watchPhp: root+'/**/*.php', // Path to all PHP files.
+	watchPhp: '../**/*.php', // Path to all PHP files.
 
 	// Translation options.
 	textDomain: 'WPGULP', // Your textdomain here.

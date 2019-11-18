@@ -1,6 +1,6 @@
 <?php 
 
-namespace core\classes;
+namespace _NAMESPACE_\core\classes;
 
 /**
  * Shortcodes

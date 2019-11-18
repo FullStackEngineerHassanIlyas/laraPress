@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name
+ * Plugin_Name
  *
  * @package     PluginPackage
  * @author      Your Name
@@ -8,7 +8,7 @@
  * @license     GPL-2.0-or-later
  *
  * @wordpress-plugin
- * Plugin Name: Plugin Name
+ * Plugin Name: Plugin_Name
  * Plugin URI:  https://example.com/plugin-name
  * Description: Description of the plugin.
  * Version:     1.0.0
@@ -22,8 +22,8 @@ defined('ABSPATH') || exit('No direct script access allowed');
 
 define('PLUGIN_NAME', basename(__DIR__));
 
-use core\{WP_loader};
-use app\App;
+use _NAMESPACE_\core\{WP_loader};
+use _NAMESPACE_\app\App;
 
 require_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/WP_loader.php';
 $wp_loader = new WP_loader;

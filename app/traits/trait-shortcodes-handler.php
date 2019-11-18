@@ -1,8 +1,8 @@
 <?php 
 
-namespace app\traits;
+namespace _NAMESPACE_\app\traits;
 	
-use core\traits\WP_view;
+use _NAMESPACE_\core\traits\WP_view;
 
 /**
  * Shortocdes handler
