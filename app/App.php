@@ -3,9 +3,7 @@
 namespace app;
 
 use core\WP_Main;
-use app\classes\Menu_page;
-use app\classes\Hooks;
-use app\classes\Shortcodes;
+use app\classes\{Menu_page, Hooks, Shortcodes};
 
 /**
  * App class
