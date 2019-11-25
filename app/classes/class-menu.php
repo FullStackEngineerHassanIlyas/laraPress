@@ -3,14 +3,13 @@
 namespace _NAMESPACE_\app\classes;
 
 use _NAMESPACE_\app\traits\WP_menu_handler;
-use _NAMESPACE_\core\interfaces\WP_menu_interface;
 use _NAMESPACE_\core\classes\WP_menu;
 
 
 /**
  * Menu
  */
-class Menu_page extends WP_menu implements WP_menu_interface {
+class Menu_page extends WP_menu {
 
 	use WP_menu_handler;
 
@@ -20,5 +19,15 @@ class Menu_page extends WP_menu implements WP_menu_interface {
 		add_action( 'admin_menu', [$this, 'menu_pages'] );
 	}
 
+	public function menu_pages() {
+		$args = [
+			'page_title' => 'sample title',
+			'menu_title' => 'sample menu',
+			'capability' => 'manage_options',
+			'menu_slug' => 'sample',
+			'order' => 2,
+		];
+		$this->add_menu_page( $args, [$this, 'sample_callback'] );
+	}
 	
 }
