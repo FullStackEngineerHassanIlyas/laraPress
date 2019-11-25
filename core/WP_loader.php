@@ -21,16 +21,15 @@ class WP_loader {
 	 */
 	private function init() {
 		# loading traits
-		require_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/traits/WP_db.php';
-		require_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/traits/WP_view.php';
+		$this->load_core_file('traits/WP_db');
+		$this->load_core_file('traits/WP_view');
 		# loading intefaces
-		require_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/interfaces/WP_menu_interface.php';
+		$this->load_core_file('interfaces/WP_menu_interface');
 		# loading classes
-		require_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/classes/WP_table.php';
-		require_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/classes/WP_hooks.php';
-		require_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/classes/WP_menu.php';
-		require_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/classes/WP_shortcodes.php';
-		
+		$this->load_core_file('classes/WP_table');
+		$this->load_core_file('classes/WP_hooks');
+		$this->load_core_file('classes/WP_menu');
+		$this->load_core_file('classes/WP_shortcodes');
 	}
 	/**
 	 * Load app classes
@@ -41,6 +40,17 @@ class WP_loader {
 		if (!in_array($type, ['classes', 'traits'])) exit('Invalid type passsed');
 
 		$file = WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/app/'.$type.'/'.$filePath.'.php';
+		if (file_exists($file)) {
+			require_once $file;
+		}
+	}
+	/**
+	 * Load Core classes|interfaces|traits
+	 * @param  string $filePath path to file
+	 * @return void
+	 */
+	private function load_core_file( $filePath ) {
+		$file = WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/'.$filePath.'.php';
 		if (file_exists($file)) {
 			require_once $file;
 		}
