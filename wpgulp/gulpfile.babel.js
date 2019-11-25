@@ -24,7 +24,7 @@
  *
  * TODO: Customize your project in the wpgulp.js file.
  */
- let config = require( './wpgulp.config.js' );
+let config = require( './wpgulp.config.js' );
 
 /**
  * Load Plugins.
@@ -75,7 +75,7 @@ const beep = require( 'beepbeep' );
  *
  * @param Mixed err
  */
- const errorHandler = r => {
+const errorHandler = r => {
  	notify.onError( '\n\n❌  ===> ERROR: <%= error.message %>\n' )( r );
  	beep();
 
@@ -90,7 +90,7 @@ const beep = require( 'beepbeep' );
  *
  * @param {Mixed} done Done.
  */
- const browsersync = done => {
+const browsersync = done => {
  	browserSync.init({
  		proxy: config.projectURL,
  		open: config.browserAutoOpen,
@@ -219,13 +219,13 @@ gulp.task( 'vendorsJS', () => {
 	.pipe( // here uncaaught error require is not defined
 		babel({
 			presets: [
-			[
+				[
 					'modern-browsers', // Preset to compile your modern JS to ES5.
 					{
 						targets: { browsers: config.BROWSERS_LIST } // Target browser list to support.
 					}
-					]
-					],
+				]
+			],
 			// plugins: ['@babel/transform-runtime']
 		})
 		)
@@ -238,7 +238,7 @@ gulp.task( 'vendorsJS', () => {
 			basename: config.jsVendorFile,
 			suffix: '.min'
 		})
-		)
+	)
 	.pipe( terser() )
 	.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
 	.pipe( gulp.dest( config.jsVendorDestination ) )
@@ -263,15 +263,15 @@ gulp.task( 'customJS', () => {
 	.pipe(
 		babel({
 			presets: [
-			[
-					'@babel/preset-env', // Preset to compile your modern JS to ES5.
+				[
+					'modern-browsers', // Preset to compile your modern JS to ES5.
 					{
 						targets: { browsers: config.BROWSERS_LIST } // Target browser list to support.
 					}
-					]
-					]
-				})
-		)
+				]
+			]
+		})
+	)
 	.pipe( remember( config.jsCustomSRC ) ) // Bring all files back to stream.
 	.pipe( concat( config.jsCustomFile + '.js' ) )
 	.pipe( lineec() ) // Consistent Line Endings for non UNIX systems.
@@ -468,13 +468,13 @@ gulp.task('setup', async function( done ) {
 	let app_name = readlineSync.question('Please enter Plugin Name...\n');
 	
 	function walkDir(dir, callback) {
-	  fs.readdirSync(dir).forEach( f => {
-	    let dirPath = path.join(dir, f);
-	    let isDirectory = fs.statSync(dirPath).isDirectory();
+		fs.readdirSync(dir).forEach( f => {
+		    let dirPath = path.join(dir, f);
+		    let isDirectory = fs.statSync(dirPath).isDirectory();
 
-		isDirectory ? walkDir(dirPath, callback) : callback(path.join(dir, f));
+			isDirectory ? walkDir(dirPath, callback) : callback(path.join(dir, f));
 
-	  });
+		});
 	};
 
 	const appDirs = ['app', 'core'];
