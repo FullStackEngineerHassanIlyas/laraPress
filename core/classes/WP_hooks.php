@@ -21,4 +21,12 @@ class WP_hooks {
 			add_action("wp_ajax_{$action}", $callable);
 		}
 	}
+
+	protected function output($input, $json = true) {
+		if ($json) {
+			echo json_encode($input);
+			exit;
+		}
+		echo $input;
+	}
 }

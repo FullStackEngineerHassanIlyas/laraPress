@@ -28,7 +28,7 @@ class Shortcodes extends WP_shortcodes {
 	 	 * $this->add_shortcode( 'baztag', array( 'MyPlugin', 'baztag_func' ) );
 		 */
 		
-		// $this->add_shortcode( 'short_code', [$this, 'shortcode_cb'] );
+		$this->add_shortcode( 'short_code', [$this, 'shortcode_cb'] );
 		
 		/**
 		 * Parent connstruct must call at the end.

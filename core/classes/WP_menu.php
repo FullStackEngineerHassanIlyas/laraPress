@@ -1,11 +1,12 @@
 <?php 
 
 namespace _NAMESPACE_\core\classes;
+use _NAMESPACE_\core\interfaces\WP_menu_interface;
 
 /**
  * WP_menus
  */
-class WP_menu {
+abstract class WP_menu implements WP_menu_interface {
 
 	protected $menu_pages = [];
 	
@@ -17,7 +18,7 @@ class WP_menu {
 	 * @param array $args   arguments for add_menu_page
 	 * @param function $caller callback for add_menu_page
 	 */
-	protected function add_menu_page( $args, $caller ) {
+	final protected function add_menu_page( $args, $caller ) {
 		$defaults = [
 			'menu_title' 	=> '',
 			'page_title' 	=> '',
@@ -34,7 +35,7 @@ class WP_menu {
 	/**
 	 * Add all pages added by WP_menu::add_menu_page
 	 */
-	public function add_menu_pages() {
+	final public function add_menu_pages() {
 		if (!empty($this->menu_pages)) {
 			foreach ($this->menu_pages as $hook => $caller) {
 				if (is_array($caller)) {
@@ -43,4 +44,5 @@ class WP_menu {
 			}
 		}
 	}
+	
 }

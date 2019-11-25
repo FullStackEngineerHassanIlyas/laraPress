@@ -27,4 +27,4 @@ use _NAMESPACE_\app\App;
 
 require_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/WP_loader.php';
 $wp_loader = new WP_loader;
-$app = new App;
+$app = new App( $wp_loader );

@@ -2,7 +2,7 @@
 
 namespace _NAMESPACE_\app;
 
-use _NAMESPACE_\core\WP_Main;
+use _NAMESPACE_\core\{WP_Main, WP_loader};
 use _NAMESPACE_\app\classes\{Menu_page, Hooks, Shortcodes};
 
 /**
@@ -10,9 +10,12 @@ use _NAMESPACE_\app\classes\{Menu_page, Hooks, Shortcodes};
  */
 class App extends WP_Main {
 	
-	function __construct() {
+	function __construct( WP_loader $loader ) {
+
+		$this->loader = $loader;
 		parent::__construct();
 		$this->loadDependencies();
+		$this->loader->load('tables/class-list-table');
 
 		$hooks = new Hooks;
 		$menu = new Menu_page;
@@ -21,12 +24,12 @@ class App extends WP_Main {
 
 	private function loadDependencies() {
 		# loading dependencies
-		$this->load('trait-hooks-handler', 'traits');
-		$this->load('trait-menu-handler', 'traits');
-		$this->load('trait-shortcodes-handler', 'traits');
+		$this->loader->load('trait-hooks-handler', 'traits');
+		$this->loader->load('trait-menu-handler', 'traits');
+		$this->loader->load('trait-shortcodes-handler', 'traits');
 
-		$this->load('class-hooks');
-		$this->load('class-menu');
-		$this->load('class-shortcodes');
+		$this->loader->load('class-hooks');
+		$this->loader->load('class-menu');
+		$this->loader->load('class-shortcodes');
 	}
 }
