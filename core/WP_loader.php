@@ -8,7 +8,7 @@ namespace _NAMESPACE_\core;
  * Loader class
  */
 class WP_loader {
-	
+
 	function __construct() {
 		$this->init();
 		require_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/WP_Main.php';

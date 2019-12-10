@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace _NAMESPACE_\core\classes;
 use _NAMESPACE_\core\interfaces\WP_menu_interface;
@@ -8,11 +8,23 @@ use _NAMESPACE_\core\interfaces\WP_menu_interface;
  */
 abstract class WP_menu implements WP_menu_interface {
 
+	/**
+	 * List of all added menu pages tags
+	 * added by add_menu_page @method
+	 * @var array
+	 */
 	protected $menu_pages = [];
-	
+
+	/**
+	 * Connstructor
+	 *
+	 * The default action hook added in this constructor for adding all
+	 * other menu pages
+	 */
 	public function __construct() {
 		add_action( 'admin_menu', [$this, 'add_menu_pages'], 11 );
 	}
+
 	/**
 	 * Add menu page in admin
 	 * @param array $args   arguments for add_menu_page
@@ -32,6 +44,7 @@ abstract class WP_menu implements WP_menu_interface {
 		$tag = add_menu_page( $args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], [$this, 'get_view'], $args['icon'], $args['order'] );
 		$this->menu_pages[$tag] = $caller;
 	}
+
 	/**
 	 * Add all pages added by WP_menu::add_menu_page
 	 */
@@ -44,5 +57,5 @@ abstract class WP_menu implements WP_menu_interface {
 			}
 		}
 	}
-	
+
 }
