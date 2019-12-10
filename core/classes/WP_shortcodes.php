@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace _NAMESPACE_\core\classes;
 
@@ -7,22 +7,31 @@ namespace _NAMESPACE_\core\classes;
  */
 class WP_shortcodes {
 
-	protected 
+	/**
+	 * Shortcodes tags list added by add_shortcode @method
+	 */
+	protected
 		$shortcodes = [];
-	
+
+	/**
+	 * Constructor
+	 *
+	 * Adds all shortcodes added by add_shortcode @method
+	 */
 	function __construct() {
-		
+
 		$this->add_shortcodes();
 	}
 
 	/**
-	 * add_shortcode method 
+	 * add_shortcode method
 	 * @param string $tag      shortcode tag
 	 * @param callable|array $callback callable function or array containing callback and object
 	 */
 	protected function add_shortcode( $tag, $callback ) {
 		$this->shortcodes[$tag] = $callback;
 	}
+
 	/**
 	 * Remove shortcode tag
 	 * @param  string $tag shortcode tag to remove
@@ -31,6 +40,7 @@ class WP_shortcodes {
 	protected function remove_shortcode( $tag ) {
 		unset($this->shrotcodes[$tag]);
 	}
+
 	/**
 	 * add_shortcodes register all shortcodes
 	 */

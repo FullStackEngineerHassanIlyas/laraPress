@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace _NAMESPACE_\app\classes;
 
@@ -11,14 +11,19 @@ use _NAMESPACE_\app\traits\WP_shortcodes_handler;
 class Shortcodes extends WP_shortcodes {
 
 	use WP_shortcodes_handler;
-	
+
+	/**
+	 * Constructor
+	 *
+	 * Add your shortcodes in this constructor
+	 */
 	function __construct() {
 		/**
 		 * Add shortcodes here
-		 * 
+		 *
 		 * @usage
 		 * $this->add_shortcode( $tag, $callback );
-		 * 
+		 *
 		 * @example
 		 * class MyPlugin {
 		 *		public static function baztag_func( $atts, $content = "" ) {
@@ -27,9 +32,9 @@ class Shortcodes extends WP_shortcodes {
 	 	 * }
 	 	 * $this->add_shortcode( 'baztag', array( 'MyPlugin', 'baztag_func' ) );
 		 */
-		
+
 		$this->add_shortcode( 'short_code', [$this, 'shortcode_cb'] );
-		
+
 		/**
 		 * Parent connstruct must call at the end.
 		 */
