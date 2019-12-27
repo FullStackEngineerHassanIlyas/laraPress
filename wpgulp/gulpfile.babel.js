@@ -476,6 +476,11 @@ gulp.task('setup', async function( done ) {
 
 		});
 	};
+	function TitleCase(str) { 
+	    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) { 
+	        return word.toUpperCase(); 
+	    }).replace(/\s+/g, ''); 
+	}
 
 	const appDirs = ['app', 'core'];
 	const replacedName = app_name.replace(/ /g, '_').toUpperCase();
@@ -486,7 +491,7 @@ gulp.task('setup', async function( done ) {
 			if (path.parse(filePath).ext == '.php') {
 				const fileContents = fs.readFileSync(filePath, 'utf8');
 				let fileContentsUpdated = fileContents.replace(/PLUGIN_NAME/g, replacedName+'_PLUGIN');
-					fileContentsUpdated = fileContentsUpdated.replace(/_NAMESPACE_/g, app_name.replace(/ /g, '_').toLowerCase());
+					fileContentsUpdated = fileContentsUpdated.replace(/_NAMESPACE_/g, TitleCase(app_name));
 				fs.writeFileSync(filePath, fileContentsUpdated);
 			}
 		});
@@ -495,7 +500,7 @@ gulp.task('setup', async function( done ) {
 	let indexFileContent = fs.readFileSync(config.root+'/index.php', "utf-8");
 		indexFileContentUpdated = indexFileContent.replace(/Plugin_Name/g, app_name);
 		indexFileContentUpdated = indexFileContentUpdated.replace(/PLUGIN_NAME/g, replacedName+'_PLUGIN');
-		indexFileContentUpdated = indexFileContentUpdated.replace(/_NAMESPACE_/g, app_name.replace(/ /g, '_').toLowerCase());
+		indexFileContentUpdated = indexFileContentUpdated.replace(/_NAMESPACE_/g, TitleCase(app_name));
 		fs.writeFileSync(config.root+'/index.php', indexFileContentUpdated);
 });
 

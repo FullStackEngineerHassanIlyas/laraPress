@@ -1,9 +1,9 @@
 <?php 
 
-namespace _NAMESPACE_\app\traits;
+namespace _NAMESPACE_\App\Traits;
 	
-use _NAMESPACE_\core\traits\WP_view;
-use _NAMESPACE_\app\classes\tables\Example_List_Table;
+use _NAMESPACE_\Core\Traits\WP_view;
+use _NAMESPACE_\App\Classes\Tables\Example_List_Table;
 
 /**
  * WP menus handler

@@ -1,9 +1,9 @@
 <?php
 
-namespace _NAMESPACE_\app;
+namespace _NAMESPACE_\App;
 
-use _NAMESPACE_\core\{WP_Main, WP_loader};
-use _NAMESPACE_\app\classes\{Menu_page, Hooks, Shortcodes};
+use _NAMESPACE_\Core\{WP_Main, WP_loader};
+use _NAMESPACE_\App\Classes\{Menu_page, Hooks, Shortcodes};
 
 /**
  * App class

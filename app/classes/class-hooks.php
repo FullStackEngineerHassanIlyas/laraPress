@@ -1,9 +1,9 @@
 <?php
 
-namespace _NAMESPACE_\app\classes;
+namespace _NAMESPACE_\App\Classes;
 
-use _NAMESPACE_\core\classes\WP_hooks;
-use _NAMESPACE_\app\traits\WP_hooks_handler;
+use _NAMESPACE_\Core\Classes\WP_hooks;
+use _NAMESPACE_\App\Traits\WP_hooks_handler;
 
 /**
  * Hooks

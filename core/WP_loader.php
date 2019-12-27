@@ -1,6 +1,6 @@
 <?php
 
-namespace _NAMESPACE_\core;
+namespace _NAMESPACE_\Core;
 
 // use core\WP_Main;
 

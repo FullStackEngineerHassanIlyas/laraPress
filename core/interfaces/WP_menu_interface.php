@@ -1,6 +1,6 @@
 <?php 
 
-namespace _NAMESPACE_\core\interfaces;
+namespace _NAMESPACE_\Core\Interfaces;
 
 interface WP_menu_interface {
 
