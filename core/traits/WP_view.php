@@ -1,4 +1,4 @@
-s<?php 
+<?php 
 namespace _NAMESPACE_\Core\Traits;
 
 /**
