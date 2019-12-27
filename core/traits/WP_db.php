@@ -1,5 +1,5 @@
 <?php 
-namespace _NAMESPACE_\core\traits;
+namespace _NAMESPACE_\Core\Traits;
 
 /**
  * WP_db database

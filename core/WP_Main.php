@@ -1,8 +1,8 @@
 <?php
 
-namespace _NAMESPACE_\core;
+namespace _NAMESPACE_\Core;
 
-use _NAMESPACE_\core\traits\WP_db;
+use _NAMESPACE_\Core\Traits\WP_db;
 /**
  * WP_Main class
  */

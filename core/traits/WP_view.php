@@ -1,5 +1,5 @@
-<?php 
-namespace _NAMESPACE_\core\traits;
+s<?php 
+namespace _NAMESPACE_\Core\Traits;
 
 /**
  * Views

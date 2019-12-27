@@ -59,6 +59,5 @@
     "git-commit": "gulp commit",
     "build": "gulp zipApp"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

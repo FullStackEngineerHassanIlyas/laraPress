@@ -1,7 +1,7 @@
 <?php
 
-namespace _NAMESPACE_\core\classes;
-use _NAMESPACE_\core\interfaces\WP_menu_interface;
+namespace _NAMESPACE_\Core\classes;
+use _NAMESPACE_\Core\Interfaces\WP_menu_interface;
 
 /**
  * WP_menus

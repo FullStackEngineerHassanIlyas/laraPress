@@ -1,8 +1,8 @@
 <?php
 
-namespace _NAMESPACE_\app\classes\tables;
+namespace _NAMESPACE_\App\Classes\Tables;
 
-use _NAMESPACE_\core\classes\WP_table;
+use _NAMESPACE_\Core\Classes\WP_table;
 
 /**
  * Example Table class

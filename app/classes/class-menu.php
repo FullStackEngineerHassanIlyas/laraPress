@@ -1,9 +1,9 @@
 <?php 
 
-namespace _NAMESPACE_\app\classes;
+namespace _NAMESPACE_\App\Classes;
 
-use _NAMESPACE_\app\traits\WP_menu_handler;
-use _NAMESPACE_\core\classes\WP_menu;
+use _NAMESPACE_\App\Traits\WP_menu_handler;
+use _NAMESPACE_\Core\Classes\WP_menu;
 
 
 /**
