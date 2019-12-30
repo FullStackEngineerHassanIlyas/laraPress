@@ -18,13 +18,15 @@
  * License:     GPL v2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
+use _NAMESPACE_\Core\{ WP_loader };
+use _NAMESPACE_\App\App;
+
 defined('ABSPATH') || exit('No direct script access allowed');
 
 define('PLUGIN_NAME', basename(__DIR__));
+define('PLUGIN_NAME_URL', plugin_dir_url( __FILE__ ));
+define('PLUGIN_NAME_PATH', WP_PLUGIN_DIR.'/'.PLUGIN_NAME);
 
-use _NAMESPACE_\Core\{WP_loader};
-use _NAMESPACE_\App\App;
-
-require_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/WP_loader.php';
-$wp_loader = new WP_loader;
-$app = new App( $wp_loader );
+require_once PLUGIN_NAME_PATH.'/core/WP_loader.php';
+WP_loader::init();
+$app = new App();

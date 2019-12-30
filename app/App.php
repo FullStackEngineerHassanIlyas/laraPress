@@ -3,39 +3,30 @@
 namespace _NAMESPACE_\App;
 
 use _NAMESPACE_\Core\{WP_Main, WP_loader};
-use _NAMESPACE_\App\Classes\{Menu_page, Hooks, Shortcodes};
 
 /**
  * App class
  */
 class App extends WP_Main {
 
-	function __construct( WP_loader $loader ) {
+	function __construct() {
+		parent::__construct();
 
-		$this->loader = $loader;
-		$this->loadDependencies();
+	}
 
+	protected function loadDependencies() {
 		// This is example list table
 		// you can add your own table
 		// classes here by adding them
 		// into tables folder
-		$this->loader->load('tables/class-list-table');
-
-		$hooks = new Hooks;
-		$menu = new Menu_page;
-		$shortcodes = new Shortcodes;
-
-		parent::__construct();
-	}
-
-	private function loadDependencies() {
+		WP_loader::load('app/classes/tables/class-list-table');
 		# loading dependencies
-		$this->loader->load('trait-hooks-handler', 'traits');
-		$this->loader->load('trait-menu-handler', 'traits');
-		$this->loader->load('trait-shortcodes-handler', 'traits');
+		WP_loader::load('app/traits/trait-hooks-handler');
+		WP_loader::load('app/traits/trait-menu-handler');
+		WP_loader::load('app/traits/trait-shortcodes-handler');
 
-		$this->loader->load('class-hooks');
-		$this->loader->load('class-menu');
-		$this->loader->load('class-shortcodes');
+		WP_loader::load('app/classes/class-hooks');
+		WP_loader::load('app/classes/class-menu');
+		WP_loader::load('app/classes/class-shortcodes');
 	}
 }

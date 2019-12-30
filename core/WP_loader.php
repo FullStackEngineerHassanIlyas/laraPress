@@ -10,50 +10,40 @@ namespace _NAMESPACE_\Core;
 class WP_loader {
 
 	function __construct() {
-		$this->init();
-		require_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/WP_Main.php';
-		require_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/app/App.php';
 	}
 
 	/**
 	 * Load all dependencies
 	 * @return void
 	 */
-	private function init() {
+	public static function init() {
 		# loading traits
-		$this->load_core_file('traits/WP_db');
-		$this->load_core_file('traits/WP_view');
+		self::load( 'core/traits/WP_db' );
+		self::load( 'core/traits/WP_view' );
 		# loading intefaces
-		$this->load_core_file('interfaces/WP_menu_interface');
+		self::load( 'core/interfaces/WP_menu_interface' );
 		# loading classes
-		$this->load_core_file('classes/WP_table');
-		$this->load_core_file('classes/WP_hooks');
-		$this->load_core_file('classes/WP_menu');
-		$this->load_core_file('classes/WP_shortcodes');
+		self::load( 'core/classes/WP_table' );
+		self::load( 'core/classes/WP_hooks' );
+		self::load( 'core/classes/WP_menu' );
+		self::load( 'core/classes/WP_shortcodes' );
+
+		# main classes
+		self::load( 'core/WP_Main' );
+		self::load( 'app/App' );
 	}
 	/**
 	 * Load app classes
 	 * @param  string $class name of class
 	 * @return void
 	 */
-	public function load( $filePath, $type = 'classes' ) {
-		if (!in_array($type, ['classes', 'traits'])) exit('Invalid type passsed');
+	public static function load( $filePath ) {
+		$filePath = trim( str_replace( '.php', '', $filePath ), '/' );
 
-		$file = WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/app/'.$type.'/'.$filePath.'.php';
-		if (file_exists($file)) {
+		$file = PLUGIN_NAME_PATH.'/'.$filePath.'.php';
+		if ( file_exists( $file ) ) {
 			require_once $file;
 		}
 	}
-	/**
-	 * Load Core classes|interfaces|traits
-	 * @param  string $filePath path to file
-	 * @return void
-	 */
-	private function load_core_file( $filePath ) {
-		$file = WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/core/'.$filePath.'.php';
-		if (file_exists($file)) {
-			require_once $file;
-		}
-	}
-
+	
 }

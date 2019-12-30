@@ -17,39 +17,52 @@ let config = {
 	root: dirPath,
 
 	// Project options.
-	projectURL: 'http://localhost/wordpress/', // Local project URL of your already running WordPress site. Could be something like wpgulp.local or localhost:3000 depending upon your local WordPress setup.
+	projectURL: 'http://localhost/typerocket/wordpress/', // Local project URL of your already running WordPress site. Could be something like wpgulp.local or localhost:3000 depending upon your local WordPress setup.
 	productURL: './', // Theme/Plugin URL. Leave it like it is, since our gulpfile.js lives in the root folder.
 	browserAutoOpen: false,
 	injectChanges: true,
 
 	// Style options.
-	styleSRC: root+'/src/public/scss/style.scss', // Path to main .scss file.
-	styleDestination: root+'/app/assets/public/css', // Path to place the compiled CSS file. -->Default set to root folder.<--
+	styleSRC: '../src/public/scss/style.scss', // Path to main .scss file.
+	styleDestination: '../app/assets/public/css', // Path to place the compiled CSS file. -->Default set to root folder.<--
 	styleFile: plugin_name,
 	outputStyle: 'expanded', // Available options → 'compact' or 'compressed' or 'nested' or 'expanded'
 	errLogToConsole: true,
 	precision: 10,
+	// Style options (admin).
+	styleAdminSRC: '../src/admin/scss/admin.scss', // Path to main .scss file.
+	styleAdminDestination: '../app/assets/admin/css', // Path to place the compiled CSS file. -->Default set to root folder.<--
+	styleAdminFile: plugin_name+'-admin',
 
 	// JS Vendor options.
 	jsVendorSRC: [
-		root+'/src/public/js/vendor/*.js'
+		'../src/public/js/*.js'
 	], // Path to JS vendor folder.
-	jsVendorDestination: root+'/app/assets/public/js/', // Path to place the compiled JS vendors file.
+	jsVendorDestination: '../app/assets/public/js/', // Path to place the compiled JS vendors file.
 	jsVendorFile: plugin_name, // Compiled JS vendors file name. Default set to vendors i.e. vendors.js.
 
+	// JS Admin options.
+	jsAdminSRC: [
+		'../src/admin/js/*.js'
+	], // Path to JS Admin folder.
+	jsAdminDestination: '../app/assets/admin/js/', // Path to place the compiled JS Admins file.
+	jsAdminFile: plugin_name+'-admin', // Compiled JS Admin file name. Default set to admin i.e. admin.js.
+
 	// JS Custom options.
-	jsCustomSRC: root+'/src/public/js/custom/*.js', // Path to JS custom scripts folder.
-	jsCustomDestination: root+'/assets/public/js/', // Path to place the compiled JS custom scripts file.
+	jsCustomSRC: '../src/public/js/custom/*.js', // Path to JS custom scripts folder.
+	jsCustomDestination: '../assets/public/js/', // Path to place the compiled JS custom scripts file.
 	jsCustomFile: plugin_name+'-custom', // Compiled JS custom file name. Default set to custom i.e. custom.js.
 
 	// Images options.
-	imgSRC: root+'/src/public/images/**/*', // Source folder of images which should be optimized and watched. You can also specify types e.g. raw/**.{png,jpg,gif} in the glob.
-	imgDST: root+'/assets/public/images/', // Destination folder of optimized images. Must be different from the imagesSRC folder.
+	imgSRC: '../src/public/images/**/*', // Source folder of images which should be optimized and watched. You can also specify types e.g. raw/**.{png,jpg,gif} in the glob.
+	imgDST: '../assets/public/images/', // Destination folder of optimized images. Must be different from the imagesSRC folder.
 
 	// Watch files paths.
-	watchStyles: root+'/src/public/scss/**/*.scss', // Path to all *.scss files inside css folder and inside them.
-	watchJsVendor: root+'/src/public/js/vendor/*.js', // Path to all vendor JS files.
-	watchJsCustom: root+'/src/public/js/custom/*.js', // Path to all custom JS files.
+	watchStyles: '../src/public/scss/**/*.scss', // Path to all *.scss files inside css folder and inside them.
+	watchAdminStyles: '../src/admin/scss/**/*.scss', // Path to all *.scss files inside css folder and inside them.
+	watchJsVendor: '../src/public/js/*.js', // Path to all vendor JS files.
+	watchJsAdmin: '../src/admin/js/*.js', // Path to all admin JS files.
+	watchJsCustom: '../src/public/js/custom/*.js', // Path to all custom JS files.
 	watchPhp: '../**/*.php', // Path to all PHP files.
 
 	// Translation options.
