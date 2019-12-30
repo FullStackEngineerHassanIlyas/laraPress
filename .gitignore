@@ -3,3 +3,7 @@ debug.log
 wpgulp/node_modules
 wpgulp/dist
 wp-plugin-framework.sublime-workspace
+app/assets/public/css
+app/assets/public/js
+app/assets/admin/css
+app/assets/admin/js
