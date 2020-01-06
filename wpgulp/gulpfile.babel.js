@@ -547,6 +547,14 @@ gulp.task('checkout', function( done ) {
  			if (err) console.log(err);
  		});
  	});
+
+ 	fs.readFile(config.root+'/README.md', "utf-8", (err, data) => {
+ 		let newData = data.replace(/(\d+\.\d+\.\d+)/, branch);
+ 		fs.writeFile(config.root+'/README.md', newData, (err) => {
+ 			if (err) console.log(err);
+ 		});
+
+ 	});
  	git.checkout(branch, {args: flag});
  	done();
 });
