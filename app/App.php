@@ -34,8 +34,8 @@ class App extends WP_Main {
 		# models
 		$this->load->model( 'user' );
 
-		$user = new User;
+		// $user = new User;
 		// echo User::find(1)->user_email;
-		exit;
+		// exit;
 	}
 }
