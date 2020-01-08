@@ -25,6 +25,9 @@ class WP_loader {
 	 * @return void
 	 */
 	public static function init() {
+		# loading database orm
+		static::getInstance()->load( 'core/database/vendor/autoload' );
+		
 		# loading traits
 		static::getInstance()->load( 'core/traits/WP_db' );
 		static::getInstance()->load( 'core/traits/WP_view' );
@@ -35,6 +38,10 @@ class WP_loader {
 		static::getInstance()->load( 'core/classes/WP_hooks' );
 		static::getInstance()->load( 'core/classes/WP_menu' );
 		static::getInstance()->load( 'core/classes/WP_shortcodes' );
+		# models 
+		static::getInstance()->load( 'core/models/WP_Model' );
+
+
 
 		# main classes
 		static::getInstance()->load( 'core/WP_Main' );
@@ -56,7 +63,7 @@ class WP_loader {
 
 	/**
 	 * Load app Trait
-	 * @param  string $file name of trait
+	 * @param  string $filePath name of trait
 	 * @return void
 	 */
 	public function trait( $filePath ) {
@@ -64,11 +71,19 @@ class WP_loader {
 	}
 	/**
 	 * Load app class
-	 * @param  string $file name of class
+	 * @param  string $filePath name of class
 	 * @return void
 	 */
 	public function class( $filePath ) {
 		$this->load( 'app/classes/'.$filePath );
+	}
+	/**
+	 * Load model class
+	 * @param  string $filePath name of class
+	 * @return void
+	 */
+	public function model( $filePath ) {
+		$this->load( 'app/models/'.$filePath );
 	}
 	
 }

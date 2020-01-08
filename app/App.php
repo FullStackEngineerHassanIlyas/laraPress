@@ -3,7 +3,7 @@
 namespace _NAMESPACE_\App;
 
 use _NAMESPACE_\Core\{WP_Main, WP_loader};
-
+use _NAMESPACE_\App\Models\User;
 /**
  * App class
  */
@@ -30,5 +30,12 @@ class App extends WP_Main {
 		$this->load->class( 'class-hooks' );
 		$this->load->class( 'class-menu' );
 		$this->load->class( 'class-shortcodes' );
+
+		# models
+		$this->load->model( 'user' );
+
+		// $user = new User;
+		// echo User::find(1)->user_email;
+		// exit;
 	}
 }
