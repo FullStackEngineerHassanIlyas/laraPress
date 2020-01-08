@@ -7,3 +7,9 @@ app/assets/public/css
 app/assets/public/js
 app/assets/admin/css
 app/assets/admin/js
+
+# dependencies
+core/database/.git
+core/database/vendor
+core/database/vendor/*
+core/database/composer.lock
