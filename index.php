@@ -1,4 +1,8 @@
 <?php
+
+use _NAMESPACE_\Core\WP_loader;
+use _NAMESPACE_\App\App;
+
 /**
  * PLUGIN_NAME
  *
@@ -18,9 +22,6 @@
  * License:     GPL v2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
-use _NAMESPACE_\Core\{ WP_loader };
-use _NAMESPACE_\App\App;
-
 defined('ABSPATH') || exit('No direct script access allowed');
 
 define('PLUGIN_NAME', basename(__DIR__));

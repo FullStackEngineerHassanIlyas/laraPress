@@ -2,10 +2,17 @@
 
 namespace _NAMESPACE_\Core\Classes;
 
+use _NAMESPACE_\Core\WP_loader;
+use _NAMESPACE_\Core\Traits\WP_view;
+
 /**
  * Shortcodes
  */
 class WP_shortcodes {
+
+	use WP_view;
+
+	protected $load;
 
 	/**
 	 * Shortcodes tags list added by add_shortcode @method
@@ -19,8 +26,10 @@ class WP_shortcodes {
 	 * Adds all shortcodes added by add_shortcode @method
 	 */
 	function __construct() {
+		$this->load = WP_loader::getInstance();
 
 		$this->add_shortcodes();
+
 	}
 
 	/**
