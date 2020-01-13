@@ -30,7 +30,7 @@ class WP_loader {
 	 */
 	public static function init() {
 		# loading database orm
-		static::getInstance()->load( 'core/database/vendor/autoload' );
+		static::getInstance()->load( 'vendor/autoload' );
 		
 		# loading traits
 		static::getInstance()->load( 'core/traits/WP_db' );
