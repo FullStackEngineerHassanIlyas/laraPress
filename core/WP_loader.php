@@ -9,6 +9,10 @@ class WP_loader {
 
 	private static $instance;
 
+	public function __construct() {
+	}
+
+
 	/**
 	 * get Instance of WP_loader
 	 * @return WP_loader instance
@@ -26,7 +30,7 @@ class WP_loader {
 	 */
 	public static function init() {
 		# loading database orm
-		static::getInstance()->load( 'core/database/vendor/autoload' );
+		static::getInstance()->load( 'vendor/autoload' );
 		
 		# loading traits
 		static::getInstance()->load( 'core/traits/WP_db' );
@@ -40,8 +44,6 @@ class WP_loader {
 		static::getInstance()->load( 'core/classes/WP_shortcodes' );
 		# models 
 		static::getInstance()->load( 'core/models/WP_Model' );
-
-
 
 		# main classes
 		static::getInstance()->load( 'core/WP_Main' );

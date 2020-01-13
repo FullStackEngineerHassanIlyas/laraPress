@@ -1,8 +1,7 @@
 <?php 
 
 namespace _NAMESPACE_\App\Traits;
-	
-use _NAMESPACE_\Core\Traits\WP_view;
+
 use _NAMESPACE_\App\Classes\Tables\Example_List_Table;
 
 /**
@@ -10,8 +9,6 @@ use _NAMESPACE_\App\Classes\Tables\Example_List_Table;
  * Define all wp menu callbacks here
  */
 trait WP_menu_handler {
-	
-	use WP_view;
 	
 	public function sample_callback( $tag ) {
 		$table = new Example_List_Table;

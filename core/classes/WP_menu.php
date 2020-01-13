@@ -1,12 +1,17 @@
 <?php
 
 namespace _NAMESPACE_\Core\classes;
+
 use _NAMESPACE_\Core\Interfaces\WP_menu_interface;
+use _NAMESPACE_\Core\Traits\WP_view;
+use _NAMESPACE_\Core\WP_loader;
 
 /**
  * WP_menus
  */
 abstract class WP_menu implements WP_menu_interface {
+
+	use WP_view;
 
 	/**
 	 * List of all added menu pages tags
@@ -22,6 +27,8 @@ abstract class WP_menu implements WP_menu_interface {
 	 * other menu pages
 	 */
 	public function __construct() {
+		$this->load = WP_loader::getInstance();
+
 		add_action( 'admin_menu', [$this, 'add_menu_pages'], 11 );
 	}
 

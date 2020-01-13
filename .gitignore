@@ -9,7 +9,7 @@ app/assets/admin/css
 app/assets/admin/js
 
 # dependencies
-core/database/.git
-core/database/vendor
-core/database/vendor/**
-core/database/composer.lock
+.git
+vendor
+vendor/**
+composer.lock

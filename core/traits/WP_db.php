@@ -1,6 +1,6 @@
 <?php 
 namespace _NAMESPACE_\Core\Traits;
-use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Capsule\Manager as Db;
 
 /**
  * WP_db database
@@ -14,10 +14,9 @@ trait WP_db {
 
 		global $wpdb;
 		$this->wpdb = $wpdb;
-		$this->db = $this;
-		$capsule = new Capsule;
+		$db = new Db;
 
-		$capsule->addConnection([
+		$db->addConnection([
 		    'driver'    => 'mysql',
 		    'host'      => DB_HOST,
 		    'database'  => DB_NAME,
@@ -27,8 +26,8 @@ trait WP_db {
 		    'collation' => 'utf8_unicode_ci', 
 		    'prefix'    => $this->wpdb->prefix,
 		]);
-		$capsule->setAsGlobal();
-    	$capsule->bootEloquent();
+		$db->setAsGlobal();
+    	$db->bootEloquent();
 	}
 	
 }
