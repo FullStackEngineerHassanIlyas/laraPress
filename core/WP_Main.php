@@ -20,7 +20,7 @@ abstract class WP_Main {
 
 		$this->initDB();
 		$this->loadDependencies();
-		$this->config = include PLUGIN_NAME_PATH.'/app/config.php';
+		$this->config = include PLUGIN_NAME_PATH.'/app/config/classInstances.php';
 
 		foreach ( $this->config as $key => $namespace ) {
 
