@@ -1,5 +1,8 @@
 <?php 
+
 namespace _NAMESPACE_\Core\Traits;
+
+use duncan3dc\Laravel\BladeInstance;
 
 /**
  * Views
@@ -12,7 +15,7 @@ trait WP_view {
 	protected function view( $view, $args = [] ) {		
 		if (!empty($args)) extract($args);
 		if (wp_is_json_request()) return;
-		include_once WP_PLUGIN_DIR.'/'.PLUGIN_NAME.'/app/views/'.$view.'.php';
+		$this->useBlade($view, $args);
 	}
 
 	public function get_view() {
@@ -27,5 +30,12 @@ trait WP_view {
 			$this->views[$tag] = $view;
 			$this->args[$tag] = $args;
 		}
+	}
+
+
+	private function useBlade( $view, $args ) {
+		$blade = new BladeInstance(PLUGIN_NAME_PATH.'/app/views', PLUGIN_NAME_PATH.'/app/cache/views');
+
+		echo $blade->render( $view, $args );
 	}
 }
