@@ -7,6 +7,7 @@ app/assets/public/css
 app/assets/public/js
 app/assets/admin/css
 app/assets/admin/js
+app/cache
 
 # dependencies
 .git
