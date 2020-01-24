@@ -15,9 +15,11 @@ class WP_loader {
 	public function __construct() {}
 
 	public function bootControllers() {
-		foreach ($this->_controllers as $key => $controller) {
-			$namespacedController = '_NAMESPACE_\App\Controllers\\'.$controller;
-			new $namespacedController;
+		if (!empty($this->_controllers)) {
+			foreach ($this->_controllers as $key => $controller) {
+				$namespacedController = '_NAMESPACE_\App\Controllers\\'.$controller;
+				new $namespacedController;
+			}			
 		}
 	}
 
