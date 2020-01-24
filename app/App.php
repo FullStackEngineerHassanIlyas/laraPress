@@ -23,16 +23,16 @@ class App extends WP_Main {
 		 */
 		$this->load->class( 'tables/class-list-table' );
 
-		$this->load->trait( 'trait-hooks-handler' );
-		$this->load->trait( 'trait-menu-handler' );
-		$this->load->trait( 'trait-shortcodes-handler' );
+		// $this->load->trait( 'trait-hooks-handler' );
+		// $this->load->trait( 'trait-menu-handler' );
+		// $this->load->trait( 'trait-shortcodes-handler' );
 
-		$this->load->class( 'class-hooks' );
-		$this->load->class( 'class-menu' );
-		$this->load->class( 'class-shortcodes' );
+		// $this->load->class( 'class-hooks' );
+		// $this->load->class( 'class-menu' );
+		// $this->load->class( 'class-shortcodes' );
 
 		# models
-		$this->load->model( 'user' );
+		// $this->load->model( 'user' );
 
 		// $user = new User;
 		// echo User::find(1)->user_email;

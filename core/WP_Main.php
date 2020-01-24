@@ -22,7 +22,7 @@ abstract class WP_Main {
 		$this->loadDependencies();
 		$this->config = include PLUGIN_NAME_PATH.'/app/config/classInstances.php';
 
-		foreach ( $this->config as $key => $namespace ) {
+		/*foreach ( $this->config as $key => $namespace ) {
 
 			foreach ( $namespace as $i => $instance ) {
 				$chunks = explode( '\\', $instance );
@@ -30,8 +30,7 @@ abstract class WP_Main {
 				$GLOBALS[ 'classes' ][ $key ][ $class ] = new $instance;
 			}
 			
-		}
-
+		}*/
 	}
 
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace _NAMESPACE_\App\Classes;
+namespace _NAMESPACE_\App\Controllers;
 
-use _NAMESPACE_\Core\Classes\WP_shortcodes;
+use _NAMESPACE_\Core\Controllers\WP_shortcodes;
 use _NAMESPACE_\App\Traits\WP_shortcodes_handler;
 
 /**
  * Shortcodes
  */
-class Shortcodes extends WP_shortcodes {
+class ShortcodesController extends WP_shortcodes {
 
 	use WP_shortcodes_handler;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace _NAMESPACE_\Core\classes;
+namespace _NAMESPACE_\Core\Controllers;
 
 use _NAMESPACE_\Core\Interfaces\WP_menu_interface;
 use _NAMESPACE_\Core\Traits\WP_view;

@@ -1,4 +1,13 @@
 {
+    "authors": [
+        {
+            "name": "Hassan",
+            "email": "hassan.ilyas0@gmail.com"
+        }
+    ],
+    "autoload": {
+        "classmap": ["core/Commands"]
+    },
     "require": {
         "illuminate/database": "^6.10",
         "symfony/console": "^5.0",

@@ -8,7 +8,7 @@ return [
     |
     */
 	'hooks' => [
-		_NAMESPACE_\App\Classes\Hooks::class,
+		_NAMESPACE_\App\Controllers\Hooks::class,
 	],
 
     /*
@@ -18,7 +18,7 @@ return [
     |
     */
 	'menus' => [
-		_NAMESPACE_\App\Classes\Menu_page::class
+		_NAMESPACE_\App\Controllers\Menu_page::class
 	],
 
     /*
@@ -28,7 +28,7 @@ return [
     |
     */
 	'shortcodes' => [
-		_NAMESPACE_\App\Classes\Shortcodes::class
+		_NAMESPACE_\App\Controllers\Shortcodes::class
 	]
 
 ];
