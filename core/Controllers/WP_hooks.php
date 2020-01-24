@@ -1,6 +1,6 @@
 <?php
 
-namespace _NAMESPACE_\Core\Classes;
+namespace _NAMESPACE_\Core\Controllers;
 
 /**
  * WP_hooks

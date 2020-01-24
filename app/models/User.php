@@ -15,7 +15,4 @@ class User extends WP_Model {
 		
 	}
 
-	public function getUserEmailAttribute($value) {
-		return strtoupper($value);
-	}
 }

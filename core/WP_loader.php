@@ -9,9 +9,17 @@ class WP_loader {
 
 	private static $instance;
 
-	public function __construct() {
-	}
+	private $controllersPath;
+	private $_controllers;
 
+	public function __construct() {}
+
+	public function bootControllers() {
+		foreach ($this->_controllers as $key => $controller) {
+			$namespacedController = '_NAMESPACE_\App\Controllers\\'.$controller;
+			new $namespacedController;
+		}
+	}
 
 	/**
 	 * get Instance of WP_loader
@@ -31,23 +39,43 @@ class WP_loader {
 	public static function init() {
 		# loading database orm
 		static::getInstance()->load( 'vendor/autoload' );
+
+		# loading commands
+		static::getInstance()->load( 'core/Commands/ControllerCommand' );
 		
 		# loading traits
 		static::getInstance()->load( 'core/traits/WP_db' );
 		static::getInstance()->load( 'core/traits/WP_view' );
+
 		# loading intefaces
 		static::getInstance()->load( 'core/interfaces/WP_menu_interface' );
+
+		# core models
+		static::getInstance()->bootDependency( 'core/models' );
+		# core traits
+		static::getInstance()->bootDependency( 'core/traits' );
+		# core controllers
+		static::getInstance()->bootDependency( 'core/controllers' );
+
+		# app models
+		static::getInstance()->bootDependency( 'app/models' );
+		# app traits
+		static::getInstance()->bootDependency( 'app/traits' );
+		# app controllers
+		static::getInstance()->bootDependency( 'app/controllers' );
+
 		# loading classes
 		static::getInstance()->load( 'core/classes/WP_table' );
-		static::getInstance()->load( 'core/classes/WP_hooks' );
-		static::getInstance()->load( 'core/classes/WP_menu' );
-		static::getInstance()->load( 'core/classes/WP_shortcodes' );
-		# models 
-		static::getInstance()->load( 'core/models/WP_Model' );
 
 		# main classes
 		static::getInstance()->load( 'core/WP_Main' );
 		static::getInstance()->load( 'app/App' );
+
+		# register controllers
+		static::getInstance()->registerControllers();
+
+		# boot controllers
+		static::getInstance()->bootControllers();
 	}
 	/**
 	 * Load any file
@@ -57,9 +85,42 @@ class WP_loader {
 	private function load( $filePath ) {
 		$filePath = trim( str_replace( '.php', '', $filePath ), '/' );
 
+		$filePath = str_replace(PLUGIN_NAME_PATH, '', $filePath);
+
 		$file = PLUGIN_NAME_PATH.'/'.$filePath.'.php';
 		if ( file_exists( $file ) ) {
 			require_once $file;
+		}
+	}
+
+	/**
+	 * Boot Dependency
+	 * @param boolean $core true|false
+	 * @param string $directory Controllers|Traits|Models
+	 * @return void
+	 */
+	private function bootDependency( $directory ) {
+
+		$directorySegments = explode( '/', $directory );
+
+		$targetDirectory = ucfirst( $directorySegments[1] );
+
+		$directory = $directorySegments[0] .'/'. $targetDirectory;
+
+		foreach ( glob(PLUGIN_NAME_PATH .'/'. $directory.'/*.php') as $key => $file ) {
+			$this->load( $file );
+
+			if ( $directorySegments[0] == 'app' && $targetDirectory == 'Controllers' ) {
+
+				$this->controllersPath[ $key ] = $file;
+			}
+		}
+	}
+
+	private function registerControllers() {
+		foreach ( $this->controllersPath as $key => $path ) {
+			$class = basename($path, '.php');
+			$this->_controllers[ $key ] = $class;
 		}
 	}
 

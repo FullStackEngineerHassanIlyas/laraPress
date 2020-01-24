@@ -1,15 +1,15 @@
 <?php 
 
-namespace _NAMESPACE_\App\Classes;
+namespace _NAMESPACE_\App\Controllers;
 
 use _NAMESPACE_\App\Traits\WP_menu_handler;
-use _NAMESPACE_\Core\Classes\WP_menu;
+use _NAMESPACE_\Core\Controllers\WP_menu;
 
 
 /**
  * Menu
  */
-class Menu_page extends WP_menu {
+class MenuPageController extends WP_menu {
 
 	use WP_menu_handler;
 

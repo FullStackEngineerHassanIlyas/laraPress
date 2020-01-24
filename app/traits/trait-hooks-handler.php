@@ -1,6 +1,6 @@
 <?php 
 
-namespace _NAMESPACE_\app\traits;
+namespace _NAMESPACE_\App\Traits;
 
 /**
  * Hooks handler
