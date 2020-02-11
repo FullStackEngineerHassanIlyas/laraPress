@@ -1,13 +1,11 @@
 <?php
 
-namespace _NAMESPACE_\Core\Controllers;
+namespace _NAMESPACE_\Core\Traits;
 
 /**
  * WP_hooks
  */
-class WP_hooks {
-
-	function __construct() {}
+trait WP_hooks {
 
 	/**
 	 * Add ajax event listner

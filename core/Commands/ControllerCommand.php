@@ -61,7 +61,7 @@ class ControllerCommand extends Command {
 
 		$controllerName = $input->getArgument( $this->commandArgumentName );
 
-		$baseController = $input->getOption( $this->commandOptionName );
+		// $baseController = $input->getOption( $this->commandOptionName );
 		$handler 		= $input->getOption( 'use' );
 		$isCreate 		= $input->getOption( 'createTrait' );
 
@@ -95,9 +95,9 @@ class ControllerCommand extends Command {
 			$sampleText = file_get_contents($this->root . '/core/samples/SampleController.php');
 
 			$sampleText = str_replace( [
-				'SampleController', 'baseController', 'SampleHandler', 'HandlerNamespace'
+				'SampleController', 'SampleHandler', 'HandlerNamespace'
 				], [
-				 $controllerName, $baseController, $usingHandler, $nameSpaceHandler 
+				 $controllerName, $usingHandler, $nameSpaceHandler 
 				], 
 				$sampleText 
 			);
