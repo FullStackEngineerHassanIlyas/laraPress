@@ -1,16 +1,14 @@
-<?php
+<?php 
 
-namespace _NAMESPACE_\Core\Controllers;
+namespace _NAMESPACE_\Core\Traits;
 
-use _NAMESPACE_\Core\Interfaces\WP_menu_interface;
 use _NAMESPACE_\Core\Traits\WP_view;
-use _NAMESPACE_\Core\WP_loader;
 
 /**
- * WP_menus
+ * WP_menu trait
  */
-abstract class WP_menu implements WP_menu_interface {
-
+trait WP_menu {
+	
 	use WP_view;
 
 	/**
@@ -19,18 +17,6 @@ abstract class WP_menu implements WP_menu_interface {
 	 * @var array
 	 */
 	protected $menu_pages = [];
-
-	/**
-	 * Connstructor
-	 *
-	 * The default action hook added in this constructor for adding all
-	 * other menu pages
-	 */
-	public function __construct() {
-		$this->load = WP_loader::getInstance();
-
-		add_action( 'admin_menu', [$this, 'add_menu_pages'], 11 );
-	}
 
 	/**
 	 * Add menu page in admin
@@ -64,5 +50,4 @@ abstract class WP_menu implements WP_menu_interface {
 			}
 		}
 	}
-
 }

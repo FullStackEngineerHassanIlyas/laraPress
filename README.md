@@ -1,3 +1,3 @@
 # wp-plugin-framework
 
-### Version 0.14.1
+### Version 0.15.0

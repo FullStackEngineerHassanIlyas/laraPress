@@ -2,13 +2,13 @@
 
 namespace _NAMESPACE_\App\Controllers;
 
-use _NAMESPACE_\Core\Controllers\WP_hooks;
+use _NAMESPACE_\Core\Controllers\WP_Controller as Controller;
 use _NAMESPACE_\App\Traits\WP_hooks_handler;
 
 /**
  * HooksController
  */
-class HooksController extends WP_hooks {
+class HooksController extends Controller {
 
 	use WP_hooks_handler;
 	
@@ -17,8 +17,6 @@ class HooksController extends WP_hooks {
 
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_scripts'] );
-
-		// $this->output(['nobar' => 'blabla']);
 		
 	}
 }
