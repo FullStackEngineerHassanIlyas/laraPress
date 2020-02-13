@@ -43,7 +43,7 @@ class WP_loader {
 		static::getInstance()->load( 'vendor/autoload' );
 
 		# loading commands
-		static::getInstance()->load( 'core/Commands/ControllerCommand' );
+		static::getInstance()->bootDependency( 'core/Commands' );
 		
 		# loading traits
 		static::getInstance()->load( 'core/traits/WP_db' );

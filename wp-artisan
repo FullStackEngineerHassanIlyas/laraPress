@@ -2,11 +2,4 @@
 <?php
 require __DIR__ . '../../../../wp-config.php';
 
-use Symfony\Component\Console\Application;
-
-$application = new Application();
-
-# add our commands
-$application->add(new ControllerCommand());
-
-$application->run();
+require PLUGIN_NAME_PATH . '/core/Console/ConsoleApp.php';

@@ -8,7 +8,7 @@ use _NAMESPACE_\App\Classes\Tables\Example_List_Table;
  * WP menus handler
  * Define all wp menu callbacks here
  */
-trait WP_menu_handler {
+trait MenuPageHandler {
 	
 	public function sample_callback( $tag ) {
 		$table = new Example_List_Table;

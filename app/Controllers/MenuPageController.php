@@ -3,7 +3,7 @@
 namespace _NAMESPACE_\App\Controllers;
 
 use _NAMESPACE_\Core\Controllers\WP_Controller as Controller;
-use _NAMESPACE_\App\Traits\WP_menu_handler;
+use _NAMESPACE_\App\Traits\MenuPageHandler;
 
 
 /**
@@ -11,7 +11,7 @@ use _NAMESPACE_\App\Traits\WP_menu_handler;
  */
 class MenuPageController extends Controller {
 
-	use WP_menu_handler;
+	use MenuPageHandler;
 
 	function __construct() {
 		parent::__construct();

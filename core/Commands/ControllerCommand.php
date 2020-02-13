@@ -12,15 +12,6 @@ class ControllerCommand extends Command {
 
 	protected $root = PLUGIN_NAME_PATH;
 
-	protected $commandName = 'make:controller';
-	protected $commandDescription = "Creates a controller";
-
-	protected $commandArgumentName = "name";
-	protected $commandArgumentDescription = "For Controller?";
-
-	protected $commandOptionName = "extends"; // should be specified like "make:controller John --extends=something"
-	protected $commandOptionDescription = 'If set, it will extends the controller!';
-
 	protected function configure() {
 		$this
 			->setName('make:controller')
@@ -29,12 +20,6 @@ class ControllerCommand extends Command {
 				'name',
 				InputArgument::OPTIONAL,
 				'For Controller?'
-			)
-			->addOption(
-			   'extends',
-			   null,
-			   InputOption::VALUE_REQUIRED,
-			   'If set, it will extends the controller!'
 			)
 			->addOption(
 				'use',
@@ -59,9 +44,8 @@ class ControllerCommand extends Command {
 
 		$sampleText = '';
 
-		$controllerName = $input->getArgument( $this->commandArgumentName );
+		$controllerName = $input->getArgument( 'name' );
 
-		// $baseController = $input->getOption( $this->commandOptionName );
 		$handler 		= $input->getOption( 'use' );
 		$isCreate 		= $input->getOption( 'createTrait' );
 
@@ -70,7 +54,7 @@ class ControllerCommand extends Command {
 
 		if ($controllerName) {
 
-			if ( is_array( $handler )) {
+			if ( is_array( $handler ) && !empty( $handler ) ) {
 				$usingHandler 	  = implode( ",\n\t\t", $handler );
 				$nameSpaceHandler = implode(', ', $handler);
 
@@ -95,7 +79,7 @@ class ControllerCommand extends Command {
 			$sampleText = file_get_contents($this->root . '/core/samples/SampleController.php');
 
 			$sampleText = str_replace( [
-				'SampleController', 'SampleHandler', 'HandlerNamespace'
+				'SampleController', !empty( $handler ) ? 'SampleHandler' : 'use SampleHandler;', !empty( $handler ) ? 'HandlerNamespace' : 'use _NAMESPACE_\App\Traits\HandlerNamespace;'
 				], [
 				 $controllerName, $usingHandler, $nameSpaceHandler 
 				], 
