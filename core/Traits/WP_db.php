@@ -23,7 +23,7 @@ trait WP_db {
 		    'username'  => DB_USER,
 		    'password'  => DB_PASSWORD,
 		    'charset'   => DB_CHARSET,
-		    'collation' => 'utf8_unicode_ci', 
+		    'collation' => $this->wpdb->collate, 
 		    'prefix'    => $this->wpdb->prefix,
 		]);
 		$db->setAsGlobal();

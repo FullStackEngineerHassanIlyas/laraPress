@@ -7,7 +7,23 @@ app/assets/public/css
 app/assets/public/js
 app/assets/admin/css
 app/assets/admin/js
+app/Models/**
+!app/Models/User.php
 app/cache
+app/Traits/**
+!app/Traits/MenuPageHandler.php
+app/views/**
+app/views/admin/*
+!app/views/admin
+!app/views/admin/sample.blade.php
+
+app/Controllers/**
+!app/Controllers/HooksController.php
+!app/Controllers/MenuPageController.php
+
+app/classes/**
+!app/classes/tables
+!app/classes/tables/class-list-table.php
 
 # dependencies
 .git
