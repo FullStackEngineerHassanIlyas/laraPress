@@ -4,7 +4,7 @@ use _NAMESPACE_\Core\WP_loader;
 use _NAMESPACE_\App\App;
 
 /**
- * PLUGIN_NAME
+ * Plugin_Name
  *
  * @package     PluginPackage
  * @author      Your Name
@@ -12,7 +12,7 @@ use _NAMESPACE_\App\App;
  * @license     GPL-2.0-or-later
  *
  * @wordpress-plugin
- * Plugin Name: PLUGIN_NAME
+ * Plugin Name: Plugin_Name
  * Plugin URI:  https://example.com/plugin-name
  * Description: Description of the plugin.
  * Version:     1.0.0

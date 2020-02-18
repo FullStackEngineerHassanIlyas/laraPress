@@ -7,13 +7,19 @@ app/assets/public/css
 app/assets/public/js
 app/assets/admin/css
 app/assets/admin/js
+
 app/Models/**
 !app/Models/User.php
+
 app/cache
 app/Traits/**
+!app/Traits
+
 app/views/**
+!app/views
 
 app/Controllers/**
+!app/Controllers
 
 app/classes/**
 !app/classes/tables

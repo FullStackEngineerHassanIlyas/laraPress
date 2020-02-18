@@ -120,9 +120,11 @@ class WP_loader {
 	}
 
 	private function registerControllers() {
-		foreach ( $this->controllersPath as $key => $path ) {
-			$class = basename($path, '.php');
-			$this->_controllers[ $key ] = $class;
+		if ( !empty( $this->controllersPath ) ) {
+			foreach ( $this->controllersPath as $key => $path ) {
+				$class = basename($path, '.php');
+				$this->_controllers[ $key ] = $class;
+			}
 		}
 	}
 
