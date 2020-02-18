@@ -580,6 +580,12 @@ gulp.task('setup', async function( done ) {
 	    }).replace(/\s+/g, ''); 
 	}
 
+	function ucwords(str) {
+		return (str + '').replace(/^(.)|\s+(.)/g, function ($1) {
+	     	return $1.toUpperCase()
+	    });
+	}
+
 	const appDirs = ['app', 'core'];
 	const replacedName = app_name.replace(/ /g, '_').toUpperCase();
 
@@ -596,7 +602,7 @@ gulp.task('setup', async function( done ) {
 
 	}
 	let indexFileContent = fs.readFileSync(config.root+'/index.php', "utf-8");
-		indexFileContentUpdated = indexFileContent.replace(/Plugin_Name/g, app_name);
+		indexFileContentUpdated = indexFileContent.replace(/Plugin_Name/g, ucwords(app_name));
 		indexFileContentUpdated = indexFileContentUpdated.replace(/PLUGIN_NAME/g, replacedName+'_PLUGIN');
 		indexFileContentUpdated = indexFileContentUpdated.replace(/_NAMESPACE_/g, TitleCase(app_name));
 		fs.writeFileSync(config.root+'/index.php', indexFileContentUpdated);
