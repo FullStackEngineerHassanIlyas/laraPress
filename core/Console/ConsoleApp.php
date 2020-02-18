@@ -1,4 +1,7 @@
 <?php 
+
+namespace _NAMESPACE_\Core\Console;
+
 use Symfony\Component\Console\Application;
 
 $application = new Application();
