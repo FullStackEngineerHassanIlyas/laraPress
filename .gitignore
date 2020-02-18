@@ -11,15 +11,9 @@ app/Models/**
 !app/Models/User.php
 app/cache
 app/Traits/**
-!app/Traits/MenuPageHandler.php
 app/views/**
-app/views/admin/*
-!app/views/admin
-!app/views/admin/sample.blade.php
 
 app/Controllers/**
-!app/Controllers/HooksController.php
-!app/Controllers/MenuPageController.php
 
 app/classes/**
 !app/classes/tables

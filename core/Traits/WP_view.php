@@ -12,7 +12,7 @@ trait WP_view {
 		$views = [],
 		$args = [];
 
-	protected function view( $view, $args = [] ) {		
+	protected function view( $view, $args = [] ) {
 		if (!empty($args)) extract($args);
 		if (wp_is_json_request()) return;
 		$this->useBlade($view, $args);
@@ -32,10 +32,9 @@ trait WP_view {
 		}
 	}
 
-
 	private function useBlade( $view, $args ) {
-		$blade = new BladeInstance(PLUGIN_NAME_PATH.'/app/views', PLUGIN_NAME_PATH.'/app/cache/views');
-
-		echo $blade->render( $view, $args );
+		if (!empty($this->blade)) {
+			echo $this->blade->render( $view, $args );			
+		}
 	}
 }
