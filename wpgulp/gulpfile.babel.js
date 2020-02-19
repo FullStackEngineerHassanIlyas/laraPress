@@ -611,7 +611,7 @@ gulp.task('setup', async function( done ) {
 	// Artisan file
 	let artisanFileContent = fs.readFileSync(config.root+'/wp-artisan', "utf-8");
 		artisanFileContentUpdated = artisanFileContent.replace(/PLUGIN_NAME/g, replacedName+'_PLUGIN');
-		fs.writeFileSync(config.root+'/wp-artisan', artisanFileContent);
+		fs.writeFileSync(config.root+'/wp-artisan', artisanFileContentUpdated);
 });
 /**
  * Watch Tasks.
