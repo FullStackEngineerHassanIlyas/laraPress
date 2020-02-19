@@ -588,7 +588,7 @@ gulp.task('setup', async function( done ) {
 
 	const appDirs = ['app', 'core'];
 	const replacedName = app_name.replace(/ /g, '_').toUpperCase();
-
+	// App files
 	for (let dir of appDirs) {
 
 		walkDir(`${config.root}/${dir}`, function(filePath) {
@@ -601,11 +601,17 @@ gulp.task('setup', async function( done ) {
 		});
 
 	}
+	// Main file
 	let indexFileContent = fs.readFileSync(config.root+'/index.php', "utf-8");
 		indexFileContentUpdated = indexFileContent.replace(/Plugin_Name/g, ucwords(app_name));
 		indexFileContentUpdated = indexFileContentUpdated.replace(/PLUGIN_NAME/g, replacedName+'_PLUGIN');
 		indexFileContentUpdated = indexFileContentUpdated.replace(/_NAMESPACE_/g, TitleCase(app_name));
 		fs.writeFileSync(config.root+'/index.php', indexFileContentUpdated);
+
+	// Artisan file
+	let artisanFileContent = fs.readFileSync(config.root+'/wp-artisan', "utf-8");
+		artisanFileContentUpdated = artisanFileContent.replace(/PLUGIN_NAME/g, replacedName+'_PLUGIN');
+		fs.writeFileSync(config.root+'/wp-artisan', indexFileContentUpdated);
 });
 /**
  * Watch Tasks.
