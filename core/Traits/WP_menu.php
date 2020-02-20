@@ -25,8 +25,8 @@ trait WP_menu {
 	 */
 	final protected function add_menu_page( $args, $caller ) {
 		$defaults = [
-			'menu_title' 	=> '',
 			'page_title' 	=> '',
+			'menu_title' 	=> '',
 			'capability' 	=> '',
 			'menu_slug' 	=> '',
 			'icon' 			=> '',
@@ -34,7 +34,42 @@ trait WP_menu {
 		];
 
 		$args = array_merge( $defaults, $args );
-		$tag = add_menu_page( $args['page_title'], $args['menu_title'], $args['capability'], $args['menu_slug'], [$this, 'get_view'], $args['icon'], $args['order'] );
+		$tag = add_menu_page( 
+			$args['page_title'], 
+			$args['menu_title'], 
+			$args['capability'], 
+			$args['menu_slug'], [$this, 'get_view'], 
+			$args['icon'], 
+			$args['order'] 
+		);
+		$this->menu_pages[$tag] = $caller;
+	}
+	/**
+	 * Add sub menu page in admin
+	 * @param array $args   arguments for add_menu_page
+	 * @param function $caller callback for add_submenu_page
+	 */
+	final protected function add_submenu_page( $args, $caller ) {
+		$defaults = [
+			'parent_slug' 	=> '',
+			'page_title' 	=> '',
+			'menu_title' 	=> '',
+			'capability' 	=> '',
+			'menu_slug' 	=> '',
+			'menu_slug' 	=> '',
+			'order' 		=> null,
+		];
+
+		$args = array_merge( $defaults, $args );
+		$tag = add_submenu_page( 
+			$args['parent_slug'],
+			$args['page_title'], 
+			$args['menu_title'],
+			$args['capability'], 
+			$args['menu_slug'], 
+			[$this, 'get_view'],
+			$args['order']
+		);
 		$this->menu_pages[$tag] = $caller;
 	}
 
