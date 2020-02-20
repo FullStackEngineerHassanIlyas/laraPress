@@ -12,11 +12,11 @@ app/Models/**
 !app/Models/User.php
 
 app/cache
-app/Traits/**
-!app/Traits
+app/Traits/*
+!app/Traits/.gitkeep
 
-app/views/**
-!app/views
+app/views/*
+!app/views/.gitkeep
 
 app/Controllers/**
 !app/Controllers
