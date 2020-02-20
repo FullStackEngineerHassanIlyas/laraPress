@@ -13,6 +13,7 @@ class SampleController extends Controller {
 	use SampleHandler;
 	
 	function __construct() {
+		parent::__construct();
 		
 	}
 }
