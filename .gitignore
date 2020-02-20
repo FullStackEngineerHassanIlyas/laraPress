@@ -19,7 +19,7 @@ app/views/*
 !app/views/.gitkeep
 
 app/Controllers/**
-!app/Controllers
+!app/Controllers/.gitkeep
 
 app/classes/**
 !app/classes/tables
