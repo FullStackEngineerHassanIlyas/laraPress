@@ -9,7 +9,6 @@ use _NAMESPACE_\Core\Traits\WP_view;
  */
 trait WP_menu {
 	
-	use WP_view;
 
 	/**
 	 * List of all added menu pages tags
