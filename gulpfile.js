@@ -14,17 +14,14 @@
  *      7. Corrects the line endings.
  *      8. InjectCSS instead of browser page reload.
  *      9. Generates .pot file for i18n and l10n.
- *
- * @tutorial https://github.com/ahmadawais/WPGulp
- * @author Ahmad Awais <https://twitter.com/MrAhmadAwais/>
  */
 
 /**
  * Load WPGulp Configuration.
  *
- * TODO: Customize your project in the wpgulp.js file.
+ * TODO: Customize your project in the gulp.config.js file.
  */
-let config = require( './wpgulp.config.js' );
+let config = require( './gulp.config.js' );
 
 /**
  * Load Plugins.
@@ -482,10 +479,10 @@ gulp.task('zipApp', async (done) => {
 		fs.mkdir(_dest, {}, (err) => {if (err) console.log(err);});
 		const result = gulp
 		.src([
-			`../app/**/*`,
-			`../core/**/*`,
-			`../index.php`,
-			], {base: '..'})
+			`app/**/*`,
+			`core/**/*`,
+			`index.php`,
+			], {base: '/'})
 		.pipe(gulp.dest(_dest))
 		.on('end', function() {
 			gulp
@@ -548,13 +545,6 @@ gulp.task('checkout', function( done ) {
  		});
  	});
 
- 	/*fs.readFile(config.root+'/README.md', "utf-8", (err, data) => {
- 		let newData = data.replace(/(\d+\.\d+\.\d+)/, branch);
- 		fs.writeFile(config.root+'/README.md', newData, (err) => {
- 			if (err) console.log(err);
- 		});
-
- 	});*/
  	git.checkout(branch, {args: flag});
  	done();
 });

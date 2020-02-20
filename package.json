@@ -48,6 +48,7 @@
 	},
 	"scripts": {
 		"start": "gulp",
+		"setup-me": "gulp setup && composer update",
 		"styles": "gulp styles",
 		"stylesRTL": "gulp stylesRTL",
 		"vendorsJS": "gulp vendorsJS",
