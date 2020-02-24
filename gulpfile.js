@@ -481,8 +481,9 @@ gulp.task('zipApp', async (done) => {
 		.src([
 			`app/**/*`,
 			`core/**/*`,
+			`vendor/**/*`,
 			`index.php`,
-			], {base: '/'})
+			], {base: './'})
 		.pipe(gulp.dest(_dest))
 		.on('end', function() {
 			gulp
