@@ -7,6 +7,8 @@ Navigate to your main plugin folder
 
 Then `npm run setup-me`
 
+## Usage
+
 ### Commands
 You can easily create `Controllers`, `Models` and `Traits` using `php wp-artisan` command.
 To create controller you would do `php wp-artisan make:controller`
