@@ -10,6 +10,12 @@ Then `npm run setup-me`
 ## Usage
 
 ### Commands
+
+Available commands:
+
+ - `make:controller`
+ - `make:model`
+
 You can easily create `Controllers`, `Models` and `Traits` using `php wp-artisan` command.
 To create controller you would do `php wp-artisan make:controller`
 
