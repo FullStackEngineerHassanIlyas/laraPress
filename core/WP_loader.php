@@ -1,6 +1,6 @@
 <?php
 
-namespace _NAMESPACE_\Core;
+namespace TestApp\Core;
 
 /**
  * WP Loader
@@ -17,7 +17,7 @@ class WP_loader {
 	public function bootControllers() {
 		if (!empty($this->_controllers)) {
 			foreach ($this->_controllers as $key => $controller) {
-				$namespacedController = '_NAMESPACE_\App\Controllers\\'.$controller;
+				$namespacedController = 'TestApp\App\Controllers\\'.$controller;
 				new $namespacedController;
 			}			
 		}
@@ -67,7 +67,8 @@ class WP_loader {
 		static::getInstance()->bootDependency( 'app/controllers' );
 
 		# loading classes
-		static::getInstance()->load( 'core/classes/WP_table' );
+		static::getInstance()->bootDependency( 'core/classes' );
+		static::getInstance()->load( 'app/config/routes' );
 
 		# main classes
 		static::getInstance()->load( 'core/WP_Main' );
@@ -87,9 +88,9 @@ class WP_loader {
 	private function load( $filePath ) {
 		$filePath = trim( str_replace( '.php', '', $filePath ), '/' );
 
-		$filePath = str_replace(PLUGIN_NAME_PATH, '', $filePath);
+		$filePath = str_replace(TEST_APP_PLUGIN_PATH, '', $filePath);
 
-		$file = PLUGIN_NAME_PATH.'/'.$filePath.'.php';
+		$file = TEST_APP_PLUGIN_PATH.'/'.$filePath.'.php';
 		if ( file_exists( $file ) ) {
 			require_once $file;
 		}
@@ -109,7 +110,7 @@ class WP_loader {
 
 		$directory = $directorySegments[0] .'/'. $targetDirectory;
 
-		foreach ( glob(PLUGIN_NAME_PATH .'/'. $directory.'/*.php') as $key => $file ) {
+		foreach ( glob(TEST_APP_PLUGIN_PATH .'/'. $directory.'/*.php') as $key => $file ) {
 			$this->load( $file );
 
 			if ( $directorySegments[0] == 'app' && $targetDirectory == 'Controllers' ) {

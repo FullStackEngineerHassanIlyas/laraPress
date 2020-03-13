@@ -2,4 +2,4 @@
 <?php
 require __DIR__ . '../../../../wp-config.php';
 
-require PLUGIN_NAME_PATH . '/core/Console/ConsoleApp.php';
+require TEST_APP_PLUGIN_PATH . '/core/Console/ConsoleApp.php';

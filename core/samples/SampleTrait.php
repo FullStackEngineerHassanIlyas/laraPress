@@ -1,6 +1,6 @@
 <?php 
 
-namespace _NAMESPACE_\App\Traits;
+namespace TestApp\App\Traits;
 
 /**
  * SampleTrait

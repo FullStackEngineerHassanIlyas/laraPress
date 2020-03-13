@@ -1,8 +1,8 @@
 <?php 
 
-namespace _NAMESPACE_\Core\Traits;
+namespace TestApp\Core\Traits;
 
-use _NAMESPACE_\Core\Traits\WP_view;
+use TestApp\Core\Traits\WP_view;
 
 /**
  * WP_menu trait

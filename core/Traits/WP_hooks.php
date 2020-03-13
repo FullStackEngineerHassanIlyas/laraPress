@@ -1,6 +1,6 @@
 <?php
 
-namespace _NAMESPACE_\Core\Traits;
+namespace TestApp\Core\Traits;
 
 /**
  * WP_hooks

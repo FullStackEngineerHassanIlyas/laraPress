@@ -10,7 +10,8 @@
     },
     "require": {
         "illuminate/database": "^6.10",
-        "symfony/console": "^5.0",
-        "duncan3dc/blade": "^4.8"
+        "duncan3dc/blade": "^4.8",
+        "illuminate/routing": "^6.0",
+        "symfony/console": "^5.0"
     }
 }

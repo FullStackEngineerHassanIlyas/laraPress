@@ -1,9 +1,9 @@
 <?php
 
-namespace _NAMESPACE_\Core;
+namespace TestApp\Core;
 
-use _NAMESPACE_\Core\WP_loader;
-use _NAMESPACE_\Core\Traits\{ WP_db };
+use TestApp\Core\WP_loader;
+use TestApp\Core\Traits\{ WP_db };
 
 /**
  * WP_Main class
@@ -20,7 +20,7 @@ abstract class WP_Main {
 
 		$this->initDB();
 		$this->loadDependencies();
-		$this->config = include PLUGIN_NAME_PATH.'/app/config/classInstances.php';
+		$this->config = include TEST_APP_PLUGIN_PATH.'/app/config/classInstances.php';
 
 		/*foreach ( $this->config as $key => $namespace ) {
 

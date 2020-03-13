@@ -1,9 +1,9 @@
 <?php 
 
-namespace _NAMESPACE_\Core\Console;
+namespace TestApp\Core\Console;
 
-use _NAMESPACE_\Core\Commands\ControllerCommand;
-use _NAMESPACE_\Core\Commands\ModelCommand;
+use TestApp\Core\Commands\ControllerCommand;
+use TestApp\Core\Commands\ModelCommand;
 
 $application->add( new ControllerCommand() );
 $application->add( new ModelCommand() );

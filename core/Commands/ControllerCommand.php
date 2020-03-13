@@ -1,6 +1,6 @@
 <?php
 
-namespace _NAMESPACE_\Core\Commands;
+namespace TestApp\Core\Commands;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ControllerCommand extends Command {
 
-	protected $root = PLUGIN_NAME_PATH;
+	protected $root = TEST_APP_PLUGIN_PATH;
 
 	protected function configure() {
 		$this
@@ -82,7 +82,7 @@ class ControllerCommand extends Command {
 			$sampleText = file_get_contents($this->root . '/core/samples/SampleController.php');
 
 			$sampleText = str_replace( [
-				'SampleController', !empty( $handler ) ? 'SampleHandler' : 'use SampleHandler;', !empty( $handler ) ? 'HandlerNamespace' : 'use _NAMESPACE_\App\Traits\HandlerNamespace;'
+				'SampleController', !empty( $handler ) ? 'SampleHandler' : 'use SampleHandler;', !empty( $handler ) ? 'HandlerNamespace' : 'use TestApp\App\Traits\HandlerNamespace;'
 				], [
 				 $controllerName, $usingHandler, $nameSpaceHandler 
 				], 

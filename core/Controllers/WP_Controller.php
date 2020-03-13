@@ -1,8 +1,8 @@
 <?php 
 
-namespace _NAMESPACE_\Core\Controllers;
+namespace TestApp\Core\Controllers;
 
-use _NAMESPACE_\Core\Traits\{ WP_menu, WP_hooks, WP_view };
+use TestApp\Core\Traits\{ WP_menu, WP_hooks, WP_view };
 use duncan3dc\Laravel\BladeInstance;
 
 /**
@@ -20,7 +20,7 @@ class WP_Controller {
 	 * Constructor
 	 */
 	function __construct() {
-		$this->blade = new BladeInstance(PLUGIN_NAME_PATH.'/app/views', PLUGIN_NAME_PATH.'/app/cache/views');
+		$this->blade = new BladeInstance(TEST_APP_PLUGIN_PATH.'/app/views', TEST_APP_PLUGIN_PATH.'/app/cache/views');
 		add_action( 'admin_menu', [$this, 'add_menu_pages'], 11 );
 	}
 

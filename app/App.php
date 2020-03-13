@@ -1,9 +1,9 @@
 <?php
 
-namespace _NAMESPACE_\App;
+namespace TestApp\App;
 
-use _NAMESPACE_\Core\{WP_Main, WP_loader};
-use _NAMESPACE_\App\Models\User;
+use TestApp\Core\{WP_Main, WP_loader};
+use TestApp\App\Models\User;
 /**
  * App class
  */
@@ -11,6 +11,7 @@ class App extends WP_Main {
 
 	function __construct() {
 		parent::__construct();
+
 
 	}
 
