@@ -12,7 +12,7 @@ $router->get('product/{product}/{id}', 'UserController@product_method')->where([
 
 
 // print_r($router->get_uri_part());
-echo '<pre>';
-print_r($router->get_actions());
-echo '</pre>';
-exit;
+// echo '<pre>';
+// print_r($router->get_actions());
+// echo '</pre>';
+// exit;

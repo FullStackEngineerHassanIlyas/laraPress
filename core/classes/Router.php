@@ -10,11 +10,45 @@ class Router {
 	public $query_vars = [];
 	private $matches = [];
 	private $uri_part = [];
+	private $actions;
 	
 	private static $instance;
 
 	function __construct() {
 		
+	}
+
+	function __destruct() {
+		foreach ($this->actions as $key => $action) {
+			foreach ($action['paterns'] as $k => $value) {
+				$this->actions[$key]['uri'] = str_replace('{'.$k.'}', $action['paterns'][$k], $this->actions[$key]['uri']);
+				$uri_segments = explode('/', $this->actions[$key]['uri']);
+
+				$this->actions[$key]['pagename'] = current($uri_segments);
+			}
+		}
+
+		add_action( 'init', function() {
+
+			foreach ($this->actions as $key => $action) {
+				add_rewrite_rule( '^'.$action['uri'].'/?$', 'index.php?pagename='.$action['pagename'].$this->make_rewrite_tags($action['paterns']), 'top' );
+			}
+		} );
+		echo '<pre>';
+		print_r($this->actions);
+		echo '</pre>';
+		exit;
+	}
+
+	private function make_rewrite_tags($vars) {
+		$query_str = '';
+		$i = 1;
+		foreach ($vars as $tag => $regex) {
+			add_rewrite_tag( "%{$tag}%", $regex );
+			$query_str .= '&'.$tag.'=$matches['.$i.']';
+			$i++;
+		}
+		return $query_str;
 	}
 
 	public static function instance() {
@@ -84,9 +118,6 @@ class Router {
 
 	public function where( $paterns ) {
 		$this->actions[$this->action_method]['paterns'] = $paterns;
-		// $this->matches = $matches;
-
-		// $this->add_paterns()->add_routes();
 	}
 
 	public function add_paterns() {
