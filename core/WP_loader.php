@@ -12,7 +12,51 @@ class WP_loader {
 	private $controllersPath;
 	private $_controllers;
 
-	public function __construct() {}
+	public function __construct() {
+		# loading database orm
+		$this->load( 'vendor/autoload' );
+
+		# loading commands
+		$this->bootDependency( 'core/Commands' );
+
+		
+		# loading traits
+		$this->load( 'core/traits/WP_db' );
+		$this->load( 'core/traits/WP_view' );
+
+		# loading intefaces
+		$this->load( 'core/Interfaces/WP_menu_interface' );
+
+		# loading services
+		$this->bootDependency( 'core/Services' );
+		# loading classes
+		$this->bootDependency( 'core/Classes' );
+
+		# core models
+		$this->bootDependency( 'core/Models' );
+		# core traits
+		$this->bootDependency( 'core/Traits' );
+		# core controllers
+		$this->bootDependency( 'core/Controllers' );
+
+		# app models
+		$this->bootDependency( 'app/Models' );
+		# app traits
+		$this->bootDependency( 'app/Traits' );
+		# app controllers
+		$this->bootDependency( 'app/Controllers' );
+				
+		# main classes
+		$this->load( 'core/WP_Main' );
+		$this->load( 'app/App' );
+
+		# register controllers
+		$this->registerControllers();
+
+		# boot controllers
+		$this->bootControllers();
+
+	}
 
 	public function bootControllers() {
 		if (!empty($this->_controllers)) {
@@ -39,60 +83,25 @@ class WP_loader {
 	 * @return void
 	 */
 	public static function init() {
-		# loading database orm
-		static::getInstance()->load( 'vendor/autoload' );
-
-		# loading commands
-		static::getInstance()->bootDependency( 'core/Commands' );
-		
-		# loading traits
-		static::getInstance()->load( 'core/traits/WP_db' );
-		static::getInstance()->load( 'core/traits/WP_view' );
-
-		# loading intefaces
-		static::getInstance()->load( 'core/interfaces/WP_menu_interface' );
-
-		# core models
-		static::getInstance()->bootDependency( 'core/models' );
-		# core traits
-		static::getInstance()->bootDependency( 'core/traits' );
-		# core controllers
-		static::getInstance()->bootDependency( 'core/controllers' );
-
-		# app models
-		static::getInstance()->bootDependency( 'app/models' );
-		# app traits
-		static::getInstance()->bootDependency( 'app/traits' );
-		# app controllers
-		static::getInstance()->bootDependency( 'app/controllers' );
-
-		# loading classes
-		static::getInstance()->bootDependency( 'core/classes' );
-		static::getInstance()->load( 'app/config/routes' );
-
-		# main classes
-		static::getInstance()->load( 'core/WP_Main' );
-		static::getInstance()->load( 'app/App' );
-
-		# register controllers
-		static::getInstance()->registerControllers();
-
-		# boot controllers
-		static::getInstance()->bootControllers();
 	}
 	/**
 	 * Load any file
 	 * @param string $filePath path/to/file name
+	 * @param bool $include true|false default: false
 	 * @retun void
 	 */
-	private function load( $filePath ) {
+	private function load( $filePath, $include = false ) {
 		$filePath = trim( str_replace( '.php', '', $filePath ), '/' );
 
 		$filePath = str_replace(TEST_APP_PLUGIN_PATH, '', $filePath);
 
 		$file = TEST_APP_PLUGIN_PATH.'/'.$filePath.'.php';
 		if ( file_exists( $file ) ) {
-			require_once $file;
+			if (!$include) {
+				require_once $file;				
+			} else {
+				include_once $file;
+			}
 		}
 	}
 

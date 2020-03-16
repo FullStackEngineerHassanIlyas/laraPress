@@ -29,5 +29,5 @@ define('TEST_APP_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 define('TEST_APP_PLUGIN_PATH', WP_PLUGIN_DIR.'/'.TEST_APP_PLUGIN);
 
 require_once TEST_APP_PLUGIN_PATH.'/core/WP_loader.php';
-WP_loader::init();
-$app = new App();
+$loader = new WP_loader;
+$app = new App( $loader );

@@ -20,6 +20,10 @@ class WP_Controller {
 	 * Constructor
 	 */
 	function __construct() {
+		# routes
+		$router = include TEST_APP_PLUGIN_PATH.'/app/config/routes.php';
+		// var_dump($router);
+		add_action( 'init', [$router, 'init_routes'] );
 		$this->blade = new BladeInstance(TEST_APP_PLUGIN_PATH.'/app/views', TEST_APP_PLUGIN_PATH.'/app/cache/views');
 		add_action( 'admin_menu', [$this, 'add_menu_pages'], 11 );
 	}

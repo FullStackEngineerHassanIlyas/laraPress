@@ -9,8 +9,8 @@ use TestApp\App\Models\User;
  */
 class App extends WP_Main {
 
-	function __construct() {
-		parent::__construct();
+	function __construct( WP_loader $loader ) {
+		parent::__construct( $loader );
 
 
 	}
