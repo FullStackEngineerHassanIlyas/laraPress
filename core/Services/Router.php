@@ -90,11 +90,12 @@ class Router {
 	}
 
 	public function init_routes() {
-		global $wp_rewrite;
-		$wp_rewrite->flush_rules();
-		foreach ($this->actions as $key => $action) {
-			add_rewrite_rule( '^'.$action['uri'].'/?$', 'index.php?pagename='.$action['pagename'].$this->make_rewrite_tags($action['paterns']), 'top' );
-		}
+		// global $wp_rewrite;
+		// $wp_rewrite->flush_rules();
+		// foreach ($this->actions as $key => $action) {
+		// 	add_rewrite_rule( '^'.$action['uri'].'/?$', 'index.php?pagename='.$action['pagename'].$this->make_rewrite_tags($action['paterns']), 'top' );
+		// }
+		return $this->actions;
 	}
 
 	public function get( $uri, $action ) {

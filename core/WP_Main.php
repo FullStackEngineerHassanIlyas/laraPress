@@ -20,21 +20,25 @@ abstract class WP_Main {
 
 		$this->initDB();
 		$this->loadDependencies();
-		$this->config = include TEST_APP_PLUGIN_PATH.'/app/config/classInstances.php';
+		# routes
+		$router = include TEST_APP_PLUGIN_PATH.'/app/config/routes.php';
+
+		echo '<pre>';
+		print_r($router->init_routes());
+		echo '</pre>';
+
+		// add_action( 'init', [$router, 'init_routes'] );
+		// add_action( 'init', [$this, 'init_routes'] );
+
 		// global $wp_query;
 		// echo '<pre>';
 		// print_r($wp_query);
 		// echo '</pre>';
 
-		/*foreach ( $this->config as $key => $namespace ) {
+	}
 
-			foreach ( $namespace as $i => $instance ) {
-				$chunks = explode( '\\', $instance );
-				$class = end( $chunks );
-				$GLOBALS[ 'classes' ][ $key ][ $class ] = new $instance;
-			}
-			
-		}*/
+	public function init_routes() {
+		add_rewrite_rule( '^my-page/([^/]+)/([0-9])/?$', 'index.php?pagename=my-page&custom_var=$matches[1]&id=$matches[2]', 'top' );
 	}
 
 }
