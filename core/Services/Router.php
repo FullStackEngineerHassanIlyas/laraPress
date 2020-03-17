@@ -44,12 +44,12 @@ class Router {
 		return $this->actions;
 	}
 
-	private function add_route( $uri, $action ) {
+	private function add_route( $uri, $action, $request_method = 'get' ) {
 		$action_parts 	= explode('@', $action);
 
 		$this->action_method = end($action_parts);
 
-		$this->actions[$this->action_method] = [ 'uri' => $uri, 'action' => $action ];
+		$this->actions[$this->action_method] = [ 'uri' => $uri, 'action' => $action, 'method' => $request_method ];
 
 
 		return $this;
@@ -75,32 +75,57 @@ class Router {
 	public function register_routes() {
 		foreach ($this->actions as $key => $action) {
 			foreach ($action['paterns'] as $k => $value) {
-				$this->actions[$key]['uri'] = str_replace('{'.$k.'}', $action['paterns'][$k], $this->actions[$key]['uri']);
+				$this->actions[$key]['uri'] = str_replace('{'.$k.'}', '('.$action['paterns'][$k].')', $this->actions[$key]['uri']);
 				$uri_segments = explode('/', $this->actions[$key]['uri']);
 
 				$this->actions[$key]['pagename'] = current($uri_segments);
 			}
 		}
 
-		// add_action( 'init', [$this, 'init_routes'] );
-		// echo '<pre>';
-		// print_r($this->actions);
-		// echo '</pre>';
-		// exit;
+		return $this->actions;
 	}
 
 	public function init_routes() {
-		// global $wp_rewrite;
+		global $wp_rewrite;
 		// $wp_rewrite->flush_rules();
-		// foreach ($this->actions as $key => $action) {
-		// 	add_rewrite_rule( '^'.$action['uri'].'/?$', 'index.php?pagename='.$action['pagename'].$this->make_rewrite_tags($action['paterns']), 'top' );
-		// }
-		return $this->actions;
+
+		foreach ($this->actions as $key => $action) {
+			add_rewrite_rule( '^'.$action['uri'].'/?$', 'index.php?pagename='.$action['pagename'].$this->make_rewrite_tags($action['paterns']), 'top' );
+		}
+		global $wp_query;
+		// echo '<pre>';
+		// print_r($wp_query);
+		// echo '</pre>';
+		// return $this->actions;
 	}
 
 	public function get( $uri, $action ) {
 
-		$this->add_route( $uri, $action )->where(['.*?']);
+		$this->add_route( $uri, $action, 'get' )->where(['.*?']);
+
+		return $this;
+	}
+	public function post( $uri, $action ) {
+
+		$this->add_route( $uri, $action, 'post' )->where(['.*?']);
+
+		return $this;
+	}
+	public function put( $uri, $action ) {
+
+		$this->add_route( $uri, $action, 'put' )->where(['.*?']);
+
+		return $this;
+	}
+	public function patch( $uri, $action ) {
+
+		$this->add_route( $uri, $action, 'patch' )->where(['.*?']);
+
+		return $this;
+	}
+	public function delete( $uri, $action ) {
+
+		$this->add_route( $uri, $action, 'delete' )->where(['.*?']);
 
 		return $this;
 	}

@@ -4,6 +4,7 @@ namespace TestApp\Core;
 
 use TestApp\Core\WP_loader;
 use TestApp\Core\Traits\{ WP_db };
+use TestApp\Core\Services\Router;
 
 /**
  * WP_Main class
@@ -18,22 +19,20 @@ abstract class WP_Main {
 	function __construct( WP_loader $loader ) {
 		$this->load = $loader;
 
+		$router = new Router;
+
 		$this->initDB();
 		$this->loadDependencies();
 		# routes
-		$router = include TEST_APP_PLUGIN_PATH.'/app/config/routes.php';
+		include TEST_APP_PLUGIN_PATH.'/app/config/routes.php';
 
 		echo '<pre>';
-		print_r($router->init_routes());
+		print_r($router->register_routes());
 		echo '</pre>';
 
-		// add_action( 'init', [$router, 'init_routes'] );
-		// add_action( 'init', [$this, 'init_routes'] );
+		add_action( 'init', [$router, 'init_routes'] );
 
-		// global $wp_query;
-		// echo '<pre>';
-		// print_r($wp_query);
-		// echo '</pre>';
+
 
 	}
 
