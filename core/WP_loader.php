@@ -12,7 +12,7 @@ class WP_loader {
 	private $_controllersPath;
 	private $_controllers;
 
-	public $controllersInstances = [];
+	public $controllerInstances = [];
 
 	public function __construct() {
 		# loading database orm
@@ -64,7 +64,7 @@ class WP_loader {
 		if (!empty($this->_controllers)) {
 			foreach ($this->_controllers as $key => $controller) {
 				$namespacedController = 'TestApp\App\Controllers\\'.$controller;
-				$this->controllersInstances[$controller] = new $namespacedController;
+				$this->controllerInstances[$controller] = new $namespacedController;
 			}			
 		}
 	}

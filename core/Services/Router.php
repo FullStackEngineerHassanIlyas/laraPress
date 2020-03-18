@@ -11,11 +11,12 @@ class Router {
 	private $matches = [];
 	private $uri_part = [];
 	private $actions;
+	private $_wp_loader;
 	
 	private static $instance;
 
-	function __construct() {
-		
+	function __construct( $wp_loader ) {
+		$this->_wp_loader = $wp_loader;
 	}
 
 	public function __get( $key ) {
@@ -94,7 +95,7 @@ class Router {
 			$controller 	= current($action_parts);
 			$method 		= end($action_parts);
 
-			add_filter( 'template_include', [ 'TestApp\\App\\Controllers\\'.$controller, $method ], 10, 1 );
+			add_filter( 'template_include', [ $this->_wp_loader->controllerInstances[$controller], $method ], 10, 1 );
 			add_rewrite_rule( '^'.$action['uri'].'/?$', 'index.php?pagename='.$action['pagename'].$this->make_rewrite_tags($action['paterns']), 'top' );
 		}
 		global $wp_query;

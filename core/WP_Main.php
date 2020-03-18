@@ -19,7 +19,7 @@ abstract class WP_Main {
 	function __construct( WP_loader $loader ) {
 		$this->load = $loader;
 
-		$router = new Router;
+		$router = new Router( $loader );
 
 		$this->initDB();
 		$this->loadDependencies();
