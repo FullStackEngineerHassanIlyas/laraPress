@@ -90,6 +90,11 @@ class Router {
 		// $wp_rewrite->flush_rules();
 
 		foreach ($this->actions as $key => $action) {
+			$action_parts 	= explode('@', $action['action']);
+			$controller 	= current($action_parts);
+			$method 		= end($action_parts);
+
+			add_filter( 'template_include', [ 'TestApp\\App\\Controllers\\'.$controller, $method ], 10, 1 );
 			add_rewrite_rule( '^'.$action['uri'].'/?$', 'index.php?pagename='.$action['pagename'].$this->make_rewrite_tags($action['paterns']), 'top' );
 		}
 		global $wp_query;

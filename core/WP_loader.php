@@ -9,8 +9,10 @@ class WP_loader {
 
 	private static $instance;
 
-	private $controllersPath;
+	private $_controllersPath;
 	private $_controllers;
+
+	public $controllersInstances = [];
 
 	public function __construct() {
 		# loading database orm
@@ -62,7 +64,7 @@ class WP_loader {
 		if (!empty($this->_controllers)) {
 			foreach ($this->_controllers as $key => $controller) {
 				$namespacedController = 'TestApp\App\Controllers\\'.$controller;
-				new $namespacedController;
+				$this->controllersInstances[$controller] = new $namespacedController;
 			}			
 		}
 	}
@@ -124,14 +126,14 @@ class WP_loader {
 
 			if ( $directorySegments[0] == 'app' && $targetDirectory == 'Controllers' ) {
 
-				$this->controllersPath[ $key ] = $file;
+				$this->_controllersPath[ $key ] = $file;
 			}
 		}
 	}
 
 	private function registerControllers() {
-		if ( !empty( $this->controllersPath ) ) {
-			foreach ( $this->controllersPath as $key => $path ) {
+		if ( !empty( $this->_controllersPath ) ) {
+			foreach ( $this->_controllersPath as $key => $path ) {
 				$class = basename($path, '.php');
 				$this->_controllers[ $key ] = $class;
 			}
