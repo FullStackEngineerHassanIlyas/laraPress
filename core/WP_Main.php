@@ -25,15 +25,14 @@ abstract class WP_Main {
 		$this->loadDependencies();
 		# routes
 		require config_path('routes.php');
-		$router->register_routes();
-		// echo '<pre>';
-		// print_r();
-		// echo '</pre>';
 
-		add_action( 'init', [$router, 'init_routes'] );
-
-
-
+		add_action( 'init', [$this, 'flush_rewirtes'], 10, 1 );
+		add_action( 'init', [$router, 'prepare_routes'] );
+		add_action( 'wp', [$router, 'init_routes'] );
+	}
+	public function flush_rewirtes() {
+    	global $wp_rewrite;
+		$wp_rewrite->flush_rules();
 	}
 
 }

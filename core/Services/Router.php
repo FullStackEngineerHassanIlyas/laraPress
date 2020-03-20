@@ -56,24 +56,7 @@ class Router {
 		return $this;
 	}
 
-	/*private function prepare_route( $uri_parts ) {
-
-		foreach ($uri_parts as $part) {
-
-			if ( preg_match('/\{([^)]*)\}/', $part ,$matches) ) {
-				$query_var = str_replace(['{', '}'], '', $part);
-				$this->query_vars[$query_var] = $query_var;
-				$this->matches[$query_var] = '.*?';
-			} else {
-				$this->uri_part[$part] = $part;
-			}
-
-		}
-
-		$this->add_paterns()->add_routes();
-	}*/
-
-	public function register_routes() {
+	private function register_routes() {
 		foreach ($this->actions as $key => $action) {
 			foreach ($action['paterns'] as $k => $value) {
 				$this->actions[$key]['uri'] = str_replace('{'.$k.'}', '('.$action['paterns'][$k].')', $this->actions[$key]['uri']);
@@ -86,23 +69,34 @@ class Router {
 		return $this->actions;
 	}
 
-	public function init_routes() {
-		global $wp_rewrite;
-		// $wp_rewrite->flush_rules();
+	public function prepare_routes() {
+		foreach ($this->register_routes() as $key => $action) {
+			$uri_segments = explode('/', $action['uri']);
+			add_rewrite_rule( '^'.$action['uri'].'/?$', 'index.php?pagename='.$action['pagename'].$this->make_rewrite_tags($action['paterns']), 'top' );							
+		}
+	}
 
-		foreach ($this->actions as $key => $action) {
+
+	public function init_routes() {
+		echo '<pre>';
+		print_r($this->actions);
+		echo '</pre>';
+		exit;
+		foreach ($this->actions as $action) {
 			$action_parts 	= explode('@', $action['action']);
 			$controller 	= current($action_parts);
 			$method 		= end($action_parts);
 
-			add_filter( 'template_include', [ $this->_wp_loader->controllerInstances[$controller], $method ], 10, 1 );
-			add_rewrite_rule( '^'.$action['uri'].'/?$', 'index.php?pagename='.$action['pagename'].$this->make_rewrite_tags($action['paterns']), 'top' );
+			if ( get_query_var( 'pagename' ) == $action['pagename'] ) {
+				if ( $_SERVER['REQUEST_METHOD'] !== strtoupper( $action['method'] ) ) {
+					exit( $_SERVER['REQUEST_METHOD'] . ' method is not allowed for this route!' );
+				}
+
+				if ( method_exists($this->_wp_loader->controllerInstances[$controller], $method) ) {
+					add_filter( 'template_include', [ $this->_wp_loader->controllerInstances[$controller], $method ], 10, 1 );
+				}
+			}			
 		}
-		global $wp_query;
-		// echo '<pre>';
-		// print_r($wp_query);
-		// echo '</pre>';
-		// return $this->actions;
 	}
 
 	public function get( $uri, $action ) {

@@ -14,6 +14,10 @@ class WP_loader {
 
 	public $controllerInstances = [];
 
+	/**
+	 * Load all dependencies
+	 * @return void
+	 */
 	public function __construct() {
 		# loading database orm
 		$this->load( 'vendor/autoload' );
@@ -78,12 +82,6 @@ class WP_loader {
         return self::$instance;
     }
 
-	/**
-	 * Load all dependencies
-	 * @return void
-	 */
-	public static function init() {
-	}
 	/**
 	 * Load any file
 	 * @param string $filePath path/to/file name
