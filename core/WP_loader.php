@@ -18,35 +18,33 @@ class WP_loader {
 		# loading database orm
 		$this->load( 'vendor/autoload' );
 
-		# loading commands
-		$this->bootDependency( 'core/Commands' );
+		# loading helpers
+		$this->load( 'core/Helpers/path' );
 
-		
-		# loading traits
-		$this->load( 'core/traits/WP_db' );
-		$this->load( 'core/traits/WP_view' );
+		# loading commands
+		$this->loadAll( 'core/Commands' );
 
 		# loading intefaces
 		$this->load( 'core/Interfaces/WP_menu_interface' );
 
 		# loading services
-		$this->bootDependency( 'core/Services' );
+		$this->loadAll( 'core/Services' );
 		# loading classes
-		$this->bootDependency( 'core/Classes' );
+		$this->loadAll( 'core/Classes' );
 
-		# core models
-		$this->bootDependency( 'core/Models' );
 		# core traits
-		$this->bootDependency( 'core/Traits' );
+		$this->loadAll( 'core/Traits' );
+		# core models
+		$this->loadAll( 'core/Models' );
 		# core controllers
-		$this->bootDependency( 'core/Controllers' );
+		$this->loadAll( 'core/Controllers' );
 
 		# app models
-		$this->bootDependency( 'app/Models' );
+		$this->loadAll( 'app/Models' );
 		# app traits
-		$this->bootDependency( 'app/Traits' );
+		$this->loadAll( 'app/Traits' );
 		# app controllers
-		$this->bootDependency( 'app/Controllers' );
+		$this->loadAll( 'app/Controllers' );
 				
 		# main classes
 		$this->load( 'core/WP_Main' );
@@ -92,18 +90,14 @@ class WP_loader {
 	 * @param bool $include true|false default: false
 	 * @retun void
 	 */
-	private function load( $filePath, $include = false ) {
+	private function load( $filePath ) {
 		$filePath = trim( str_replace( '.php', '', $filePath ), '/' );
 
 		$filePath = str_replace(TEST_APP_PLUGIN_PATH, '', $filePath);
 
 		$file = TEST_APP_PLUGIN_PATH.'/'.$filePath.'.php';
 		if ( file_exists( $file ) ) {
-			if (!$include) {
-				require_once $file;				
-			} else {
-				include_once $file;
-			}
+			require $file;
 		}
 	}
 
@@ -113,7 +107,7 @@ class WP_loader {
 	 * @param string $directory Controllers|Traits|Models
 	 * @return void
 	 */
-	private function bootDependency( $directory ) {
+	private function loadAll( $directory ) {
 
 		$directorySegments = explode( '/', $directory );
 

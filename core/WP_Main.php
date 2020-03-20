@@ -24,20 +24,16 @@ abstract class WP_Main {
 		$this->initDB();
 		$this->loadDependencies();
 		# routes
-		include TEST_APP_PLUGIN_PATH.'/app/config/routes.php';
-
-		echo '<pre>';
-		print_r($router->register_routes());
-		echo '</pre>';
+		require config_path('routes.php');
+		$router->register_routes();
+		// echo '<pre>';
+		// print_r();
+		// echo '</pre>';
 
 		add_action( 'init', [$router, 'init_routes'] );
 
 
 
-	}
-
-	public function init_routes() {
-		add_rewrite_rule( '^my-page/([^/]+)/([0-9])/?$', 'index.php?pagename=my-page&custom_var=$matches[1]&id=$matches[2]', 'top' );
 	}
 
 }
