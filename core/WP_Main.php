@@ -4,6 +4,9 @@ namespace _NAMESPACE_\Core;
 
 use _NAMESPACE_\Core\WP_loader;
 use _NAMESPACE_\Core\Traits\{ WP_db };
+use _NAMESPACE_\Core\Services\Router;
+
+use function _NAMESPACE_\Core\Helpers\config_path;
 
 /**
  * WP_Main class
@@ -15,22 +18,23 @@ abstract class WP_Main {
 	protected $config;
 	protected $load;
 
-	function __construct() {
-		$this->load = WP_loader::getInstance();
+	function __construct( WP_loader $loader ) {
+		$this->load = $loader;
+
+		$router = new Router( $loader );
 
 		$this->initDB();
 		$this->loadDependencies();
-		$this->config = include PLUGIN_NAME_PATH.'/app/config/classInstances.php';
+		# routes
+		require config_path('routes.php');
 
-		/*foreach ( $this->config as $key => $namespace ) {
-
-			foreach ( $namespace as $i => $instance ) {
-				$chunks = explode( '\\', $instance );
-				$class = end( $chunks );
-				$GLOBALS[ 'classes' ][ $key ][ $class ] = new $instance;
-			}
-			
-		}*/
+		add_action( 'init', [$this, 'flush_rewirtes'] );
+		add_action( 'init', [$router, 'prepare_routes'] );
+		add_action( 'wp', [$router, 'routes_view'] );
+	}
+	public function flush_rewirtes() {
+    	global $wp_rewrite;
+		$wp_rewrite->flush_rules();
 	}
 
 }

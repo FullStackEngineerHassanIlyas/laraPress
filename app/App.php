@@ -9,8 +9,9 @@ use _NAMESPACE_\App\Models\User;
  */
 class App extends WP_Main {
 
-	function __construct() {
-		parent::__construct();
+	function __construct( WP_loader $loader ) {
+		parent::__construct( $loader );
+
 
 	}
 
@@ -23,8 +24,5 @@ class App extends WP_Main {
 		 */
 		$this->load->class( 'tables/class-list-table' );
 
-		// $user = new User;
-		// echo User::find(1)->user_email;
-		// exit;
 	}
 }

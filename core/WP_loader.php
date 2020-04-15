@@ -7,18 +7,87 @@ namespace _NAMESPACE_\Core;
  */
 class WP_loader {
 
-	private static $instance;
+	/**
+	 * Private WP_loader $_instance
+	 * @var WP_loader object
+	 */
+	private static $_instance;
 
-	private $controllersPath;
+	/**
+	 * Absolute path for controller path
+	 * @var array
+	 */
+	private $_controllersPath;
+
+	/**
+	 * Registered Controlelrs
+	 * @var array
+	 */
 	private $_controllers;
 
-	public function __construct() {}
+	/**
+	 * Constructed Controllers
+	 * @var array
+	 */
+	public $controllerInstances = [];
 
+	/**
+	 * Load all dependencies
+	 * @return void
+	 */
+	public function __construct() {
+		# loading database orm
+		$this->load( 'vendor/autoload' );
+
+		# loading helpers
+		$this->load( 'core/Helpers/path' );
+
+		# loading commands
+		$this->loadAll( 'core/Commands' );
+
+		# loading intefaces
+		$this->load( 'core/Interfaces/WP_menu_interface' );
+
+		# loading services
+		$this->loadAll( 'core/Services' );
+		# loading classes
+		$this->loadAll( 'core/Classes' );
+
+		# core traits
+		$this->loadAll( 'core/Traits' );
+		# core models
+		$this->loadAll( 'core/Models' );
+		# core controllers
+		$this->loadAll( 'core/Controllers' );
+
+		# app models
+		$this->loadAll( 'app/Models' );
+		# app traits
+		$this->loadAll( 'app/Traits' );
+		# app controllers
+		$this->loadAll( 'app/Controllers' );
+				
+		# main classes
+		$this->load( 'core/WP_Main' );
+		$this->load( 'app/App' );
+
+		# register controllers
+		$this->registerControllers();
+
+		# boot them all
+		$this->bootControllers();
+	}
+
+	/**
+	 * Prepare controllers namespaces
+	 * And boot them
+	 * @return void
+	 */
 	public function bootControllers() {
 		if (!empty($this->_controllers)) {
 			foreach ($this->_controllers as $key => $controller) {
 				$namespacedController = '_NAMESPACE_\App\Controllers\\'.$controller;
-				new $namespacedController;
+				$this->controllerInstances[$controller] = new $namespacedController;
 			}			
 		}
 	}
@@ -28,60 +97,16 @@ class WP_loader {
 	 * @return WP_loader instance
 	 */
     public static function getInstance() {
-        if (!(self::$instance instanceof self)) {
-            self::$instance = new self;
+        if (!(self::$_instance instanceof self)) {
+            self::$_instance = new self;
         }
-        return self::$instance;
+        return self::$_instance;
     }
 
 	/**
-	 * Load all dependencies
-	 * @return void
-	 */
-	public static function init() {
-		# loading database orm
-		static::getInstance()->load( 'vendor/autoload' );
-
-		# loading commands
-		static::getInstance()->bootDependency( 'core/Commands' );
-		
-		# loading traits
-		static::getInstance()->load( 'core/traits/WP_db' );
-		static::getInstance()->load( 'core/traits/WP_view' );
-
-		# loading intefaces
-		static::getInstance()->load( 'core/interfaces/WP_menu_interface' );
-
-		# core models
-		static::getInstance()->bootDependency( 'core/models' );
-		# core traits
-		static::getInstance()->bootDependency( 'core/traits' );
-		# core controllers
-		static::getInstance()->bootDependency( 'core/controllers' );
-
-		# app models
-		static::getInstance()->bootDependency( 'app/models' );
-		# app traits
-		static::getInstance()->bootDependency( 'app/traits' );
-		# app controllers
-		static::getInstance()->bootDependency( 'app/controllers' );
-
-		# loading classes
-		static::getInstance()->load( 'core/classes/WP_table' );
-
-		# main classes
-		static::getInstance()->load( 'core/WP_Main' );
-		static::getInstance()->load( 'app/App' );
-
-		# register controllers
-		static::getInstance()->registerControllers();
-
-		# boot controllers
-		static::getInstance()->bootControllers();
-	}
-	/**
 	 * Load any file
 	 * @param string $filePath path/to/file name
+	 * @param bool $include true|false default: false
 	 * @retun void
 	 */
 	private function load( $filePath ) {
@@ -91,7 +116,7 @@ class WP_loader {
 
 		$file = PLUGIN_NAME_PATH.'/'.$filePath.'.php';
 		if ( file_exists( $file ) ) {
-			require_once $file;
+			require $file;
 		}
 	}
 
@@ -101,7 +126,7 @@ class WP_loader {
 	 * @param string $directory Controllers|Traits|Models
 	 * @return void
 	 */
-	private function bootDependency( $directory ) {
+	private function loadAll( $directory ) {
 
 		$directorySegments = explode( '/', $directory );
 
@@ -114,14 +139,18 @@ class WP_loader {
 
 			if ( $directorySegments[0] == 'app' && $targetDirectory == 'Controllers' ) {
 
-				$this->controllersPath[ $key ] = $file;
+				$this->_controllersPath[ $key ] = $file;
 			}
 		}
 	}
 
+	/**
+	 * Register all controllers
+	 * @return void
+	 */
 	private function registerControllers() {
-		if ( !empty( $this->controllersPath ) ) {
-			foreach ( $this->controllersPath as $key => $path ) {
+		if ( !empty( $this->_controllersPath ) ) {
+			foreach ( $this->_controllersPath as $key => $path ) {
 				$class = basename($path, '.php');
 				$this->_controllers[ $key ] = $class;
 			}

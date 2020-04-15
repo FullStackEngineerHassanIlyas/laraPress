@@ -29,5 +29,5 @@ define('PLUGIN_NAME_URL', plugin_dir_url( __FILE__ ));
 define('PLUGIN_NAME_PATH', WP_PLUGIN_DIR.'/'.PLUGIN_NAME);
 
 require_once PLUGIN_NAME_PATH.'/core/WP_loader.php';
-WP_loader::init();
-$app = new App();
+$loader = new WP_loader;
+$app = new App( $loader );

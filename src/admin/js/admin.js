@@ -34,10 +34,7 @@ function ajaxForm(form, options = {}, callback) {
 	$(form).ajaxForm(options);
 }
 
-function ajax_cb(res, form) {
-	res = JSON.parse(res);
-	console.log(res);
-}
+
 $(function() {
-	ajaxForm('[data-form="ajax"]');
+	// Do your stuff!
 });
