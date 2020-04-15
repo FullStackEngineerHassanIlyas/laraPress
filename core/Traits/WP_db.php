@@ -1,5 +1,5 @@
 <?php 
-namespace TestApp\Core\Traits;
+namespace _NAMESPACE_\Core\Traits;
 use Illuminate\Database\Capsule\Manager as Db;
 
 /**

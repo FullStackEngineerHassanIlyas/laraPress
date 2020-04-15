@@ -1,7 +1,9 @@
 <?php 
 
+namespace _NAMESPACE_\Core\Helpers;
+
 function plugin_path( $path = '' ) {
-	return TEST_APP_PLUGIN_PATH . '/'. trim($path, '/');
+	return PLUGIN_NAME_PATH . '/'. trim($path, '/');
 }
 
 function config_path( $path = '' ) {

@@ -1,17 +1,34 @@
 <?php
 
-namespace TestApp\Core;
+namespace _NAMESPACE_\Core;
 
 /**
  * WP Loader
  */
 class WP_loader {
 
-	private static $instance;
+	/**
+	 * Private WP_loader $_instance
+	 * @var WP_loader object
+	 */
+	private static $_instance;
 
+	/**
+	 * Absolute path for controller path
+	 * @var array
+	 */
 	private $_controllersPath;
+
+	/**
+	 * Registered Controlelrs
+	 * @var array
+	 */
 	private $_controllers;
 
+	/**
+	 * Constructed Controllers
+	 * @var array
+	 */
 	public $controllerInstances = [];
 
 	/**
@@ -57,15 +74,19 @@ class WP_loader {
 		# register controllers
 		$this->registerControllers();
 
-		# boot controllers
+		# boot them all
 		$this->bootControllers();
-
 	}
 
+	/**
+	 * Prepare controllers namespaces
+	 * And boot them
+	 * @return void
+	 */
 	public function bootControllers() {
 		if (!empty($this->_controllers)) {
 			foreach ($this->_controllers as $key => $controller) {
-				$namespacedController = 'TestApp\App\Controllers\\'.$controller;
+				$namespacedController = '_NAMESPACE_\App\Controllers\\'.$controller;
 				$this->controllerInstances[$controller] = new $namespacedController;
 			}			
 		}
@@ -76,10 +97,10 @@ class WP_loader {
 	 * @return WP_loader instance
 	 */
     public static function getInstance() {
-        if (!(self::$instance instanceof self)) {
-            self::$instance = new self;
+        if (!(self::$_instance instanceof self)) {
+            self::$_instance = new self;
         }
-        return self::$instance;
+        return self::$_instance;
     }
 
 	/**
@@ -91,9 +112,9 @@ class WP_loader {
 	private function load( $filePath ) {
 		$filePath = trim( str_replace( '.php', '', $filePath ), '/' );
 
-		$filePath = str_replace(TEST_APP_PLUGIN_PATH, '', $filePath);
+		$filePath = str_replace(PLUGIN_NAME_PATH, '', $filePath);
 
-		$file = TEST_APP_PLUGIN_PATH.'/'.$filePath.'.php';
+		$file = PLUGIN_NAME_PATH.'/'.$filePath.'.php';
 		if ( file_exists( $file ) ) {
 			require $file;
 		}
@@ -113,7 +134,7 @@ class WP_loader {
 
 		$directory = $directorySegments[0] .'/'. $targetDirectory;
 
-		foreach ( glob(TEST_APP_PLUGIN_PATH .'/'. $directory.'/*.php') as $key => $file ) {
+		foreach ( glob(PLUGIN_NAME_PATH .'/'. $directory.'/*.php') as $key => $file ) {
 			$this->load( $file );
 
 			if ( $directorySegments[0] == 'app' && $targetDirectory == 'Controllers' ) {
@@ -123,6 +144,10 @@ class WP_loader {
 		}
 	}
 
+	/**
+	 * Register all controllers
+	 * @return void
+	 */
 	private function registerControllers() {
 		if ( !empty( $this->_controllersPath ) ) {
 			foreach ( $this->_controllersPath as $key => $path ) {

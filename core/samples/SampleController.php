@@ -1,9 +1,9 @@
 <?php 
 
-namespace TestApp\App\Controllers;
+namespace _NAMESPACE_\App\Controllers;
 
-use TestApp\Core\Controllers\WP_Controller as Controller;
-use TestApp\App\Traits\HandlerNamespace;
+use _NAMESPACE_\Core\Controllers\WP_Controller as Controller;
+use _NAMESPACE_\App\Traits\HandlerNamespace;
 
 /**
  * SampleController

@@ -1,6 +1,6 @@
 <?php 
 
-namespace TestApp\Core\Traits;
+namespace _NAMESPACE_\Core\Traits;
 
 use duncan3dc\Laravel\BladeInstance;
 

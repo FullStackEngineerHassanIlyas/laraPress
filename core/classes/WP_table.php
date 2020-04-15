@@ -1,6 +1,6 @@
 <?php
 
-namespace TestApp\Core\Classes;
+namespace _NAMESPACE_\Core\Classes;
 
 /**
  * Include WP list table core class

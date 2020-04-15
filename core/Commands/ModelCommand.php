@@ -1,6 +1,6 @@
 <?php 
 
-namespace TestApp\Core\Commands;
+namespace _NAMESPACE_\Core\Commands;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ModelCommand extends Command {
 
-	protected $root = TEST_APP_PLUGIN_PATH;
+	protected $root = PLUGIN_NAME_PATH;
 
 	protected function configure() {
 		$this

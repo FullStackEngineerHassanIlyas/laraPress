@@ -1,8 +1,8 @@
 <?php 
 
-namespace TestApp\App\Models;
+namespace _NAMESPACE_\App\Models;
 
-use TestApp\Core\Models\WP_Model;
+use _NAMESPACE_\Core\Models\WP_Model;
 
 /**
  * User Model

@@ -1,10 +1,12 @@
 <?php
 
-namespace TestApp\Core;
+namespace _NAMESPACE_\Core;
 
-use TestApp\Core\WP_loader;
-use TestApp\Core\Traits\{ WP_db };
-use TestApp\Core\Services\Router;
+use _NAMESPACE_\Core\WP_loader;
+use _NAMESPACE_\Core\Traits\{ WP_db };
+use _NAMESPACE_\Core\Services\Router;
+
+use function _NAMESPACE_\Core\Helpers\config_path;
 
 /**
  * WP_Main class
@@ -26,9 +28,9 @@ abstract class WP_Main {
 		# routes
 		require config_path('routes.php');
 
-		add_action( 'init', [$this, 'flush_rewirtes'], 10, 1 );
+		add_action( 'init', [$this, 'flush_rewirtes'] );
 		add_action( 'init', [$router, 'prepare_routes'] );
-		add_action( 'wp', [$router, 'init_routes'] );
+		add_action( 'wp', [$router, 'routes_view'] );
 	}
 	public function flush_rewirtes() {
     	global $wp_rewrite;

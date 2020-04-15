@@ -1,10 +1,10 @@
 <?php
 
-use TestApp\Core\WP_loader;
-use TestApp\App\App;
+use _NAMESPACE_\Core\WP_loader;
+use _NAMESPACE_\App\App;
 
 /**
- * Test App
+ * Plugin_Name
  *
  * @package     PluginPackage
  * @author      Your Name
@@ -12,7 +12,7 @@ use TestApp\App\App;
  * @license     GPL-2.0-or-later
  *
  * @wordpress-plugin
- * Plugin Name: Test App
+ * Plugin Name: Plugin_Name
  * Plugin URI:  https://example.com/plugin-name
  * Description: Description of the plugin.
  * Version:     1.0.0
@@ -24,10 +24,10 @@ use TestApp\App\App;
  */
 defined('ABSPATH') || exit('No direct script access allowed');
 
-define('TEST_APP_PLUGIN', basename(__DIR__));
-define('TEST_APP_PLUGIN_URL', plugin_dir_url( __FILE__ ));
-define('TEST_APP_PLUGIN_PATH', WP_PLUGIN_DIR.'/'.TEST_APP_PLUGIN);
+define('PLUGIN_NAME', basename(__DIR__));
+define('PLUGIN_NAME_URL', plugin_dir_url( __FILE__ ));
+define('PLUGIN_NAME_PATH', WP_PLUGIN_DIR.'/'.PLUGIN_NAME);
 
-require_once TEST_APP_PLUGIN_PATH.'/core/WP_loader.php';
+require_once PLUGIN_NAME_PATH.'/core/WP_loader.php';
 $loader = new WP_loader;
 $app = new App( $loader );

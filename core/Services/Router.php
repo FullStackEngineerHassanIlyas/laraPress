@@ -1,128 +1,255 @@
 <?php 
 
-namespace TestApp\Core\Services;
+namespace _NAMESPACE_\Core\Services;
+
+use _NAMESPACE_\Core\WP_loader;
 
 /**
  * Router
  */
 class Router {
-	public $routes = [];
-	public $query_vars = [];
-	private $matches = [];
-	private $uri_part = [];
-	private $actions;
+
+	/**
+	 * Routes array
+	 * @var array
+	 */
+	private $routes;
+
+	/**
+	 * WP_loader instance
+	 * @var object
+	 */
 	private $_wp_loader;
 	
-	private static $instance;
+	/**
+	 * Router instance object
+	 * @var object
+	 */
+	private static $_instance;
 
-	function __construct( $wp_loader ) {
+	/**
+	 * Constructor
+	 * @param object $wp_loader Instance of WP_loader
+	 */
+	function __construct( WP_loader $wp_loader ) {
 		$this->_wp_loader = $wp_loader;
 	}
 
+	/**
+	 * Dump
+	 * @param  mixed $value
+	 * @return void
+	 */
+	private function dump($value) {
+		echo '<pre>';
+		print_r($value);
+		echo '</pre>';
+	}
+
+	/**
+	 * Access private property
+	 * @param  string $key key name
+	 * @return mixed
+	 */
 	public function __get( $key ) {
 		return $this->{$key};
 	}
 
-	private function make_rewrite_tags($vars) {
-		$query_str = '';
-		$i = 1;
-		foreach ($vars as $tag => $regex) {
-			add_rewrite_tag( "%{$tag}%", $regex );
-			$query_str .= '&'.$tag.'=$matches['.$i.']';
-			$i++;
-		}
-		return $query_str;
-	}
-
+	/**
+	 * Router instance
+	 * @return object returns Router instance object
+	 */
 	public static function instance() {
-		if ( !self::$instance instanceof self ) {
-			self::$instance = new self;
+		if ( !self::$_instance instanceof self ) {
+			self::$_instance = new self;
 		}
-		return self::$instance;
+		return self::$_instance;
 	}
 
-	public function get_actions() {
-		return $this->actions;
-	}
-
+	/**
+	 * Add a route for custom wp routes
+	 * @param string $uri            The Route path
+	 * @param string $action         The Controller action
+	 * @param string $request_method HTTP request method
+	 */
 	private function add_route( $uri, $action, $request_method = 'get' ) {
+		preg_match_all('/{([^}]*)}/', $uri, $matches);
+		$uri = str_replace(['{', '}', '?'], ['(', ')', ''], $uri);
+		$uri_segments = explode('/(', $uri);
+		$page 		  =	current($uri_segments);
+		$pagename 	  = str_replace('/', '_', $page);
+
 		$action_parts 	= explode('@', $action);
 
 		$this->action_method = end($action_parts);
 
-		$this->actions[$this->action_method] = [ 'uri' => $uri, 'action' => $action, 'method' => $request_method ];
+		$patterns = array_flip($matches[1]);
+
+		// if there is any query vars, set default pattern for them
+		array_walk($patterns, function( &$v, $k ) { $v = '[.*?]';});
+
+		$this->routes[$this->action_method] = [
+			'uri' 		=> $uri,
+			'page' 		=> $page,
+			// 'pagename' => $pagename . '_' . $this->action_method,
+			'pagename' 	=> strtolower( str_replace('@', '__', $action) ),
+			'action' 	=> $action,
+			'method' 	=> $request_method,
+			'matches' 	=> $matches[1],
+			'patterns' 	=> $patterns
+		];
 
 
 		return $this;
 	}
 
-	private function register_routes() {
-		foreach ($this->actions as $key => $action) {
-			foreach ($action['paterns'] as $k => $value) {
-				$this->actions[$key]['uri'] = str_replace('{'.$k.'}', '('.$action['paterns'][$k].')', $this->actions[$key]['uri']);
-				$uri_segments = explode('/', $this->actions[$key]['uri']);
+	/**
+	 * Adds rewrite tags for route
+	 * @param  array $tags     The rewrite tags to add
+	 * @return string          The query string for route pattern
+	 */
+	private function make_rewrite_tags( $tags ) {
+		$query_str = '';
+		$regex_str = '';
 
-				$this->actions[$key]['pagename'] = current($uri_segments);
+		if ( !empty($tags) ) {
+			$i = 1;
+			foreach ($tags as $tag => $regex) {
+				add_rewrite_tag( "%{$tag}%", $regex );
+				$query_str .= '&'.$tag.'=$matches['.$i.']';
+				$regex_str .= '/('.$regex.')';
+				$i++;
+
+				# TODO: check this later
+				// add_rewrite_rule( $page . $regex_str . '/?$', $redirect . $query_str, 'top' );
 			}
 		}
 
-		return $this->actions;
+		return $query_str;
 	}
 
+	/**
+	 * Fill all routes into array
+	 * 
+	 * @return array all routes registered
+	 */
+	private function register_routes() {
+		foreach ( $this->routes as $route => $route_array ) {
+			foreach ( $route_array['patterns'] as $k => $value ) {
+				$this->routes[ $route ][ 'uri' ] = str_replace("({$k})", "({$value})", $this->routes[ $route ][ 'uri' ]);
+			}
+		}
+
+		return $this->routes;
+	}
+
+	/**
+	 * Add all routes to rewrite rules
+	 * @return void
+	 */
 	public function prepare_routes() {
-		foreach ($this->register_routes() as $key => $action) {
-			$uri_segments = explode('/', $action['uri']);
-			add_rewrite_rule( '^'.$action['uri'].'/?$', 'index.php?pagename='.$action['pagename'].$this->make_rewrite_tags($action['paterns']), 'top' );							
+		foreach ($this->register_routes() as $key => $route) {
+			// $page 		= '^'.$route['page'];
+			$page 		= '^'.$route['uri'];
+			$redirect 	= 'index.php?pagename='.$route['pagename'];
+			$query_str  = $this->make_rewrite_tags( $route['patterns'], $page, $redirect );
+
+			add_rewrite_rule( $page . '/?$', $redirect.$query_str, 'top' );
 		}
 	}
 
+	/**
+	 * Routes page template view
+	 * @return void
+	 */
+	public function routes_view() {
 
-	public function init_routes() {
-		echo '<pre>';
-		print_r($this->actions);
-		echo '</pre>';
-		exit;
-		foreach ($this->actions as $action) {
-			$action_parts 	= explode('@', $action['action']);
-			$controller 	= current($action_parts);
-			$method 		= end($action_parts);
+		foreach ($this->routes as $route) {
+			$route_parts 	= explode('@', $route['action']);
+			$controller 	= current($route_parts);
+			$method 		= end($route_parts);
+			$controllerObj  = $this->_wp_loader->controllerInstances[ $controller ];
+			$params 		= array_keys($route['patterns']);
+			$args 			= [];
 
-			if ( get_query_var( 'pagename' ) == $action['pagename'] ) {
-				if ( $_SERVER['REQUEST_METHOD'] !== strtoupper( $action['method'] ) ) {
-					exit( $_SERVER['REQUEST_METHOD'] . ' method is not allowed for this route!' );
+			foreach ($params as $param) {
+				$args[] = get_query_var( $param );
+			}
+
+			if ( get_query_var( 'pagename' ) == $route['pagename'] ) {
+				if ( $_SERVER['REQUEST_METHOD'] !== strtoupper( $route['method'] ) ) {
+					wp_die( $_SERVER['REQUEST_METHOD'] . ' method is not allowed for this route!', __('Method not allowed!') );
 				}
 
-				if ( method_exists($this->_wp_loader->controllerInstances[$controller], $method) ) {
-					add_filter( 'template_include', [ $this->_wp_loader->controllerInstances[$controller], $method ], 10, 1 );
+				if ( method_exists($this->_wp_loader->controllerInstances[ $controller ], $method) ) {
+
+					add_filter( 'template_include', function( $template ) use ( $controllerObj, $method, $args ) {
+						$args[] = $template;
+
+						return $controllerObj->$method( ...$args );
+					}, 10, 1 );
 				}
 			}			
 		}
 	}
 
+	/**
+	 * Add route for get request
+	 * @param  string $uri    The Route URL
+	 * @param  string $action Controller and Method
+	 * @return object         retruns Router object
+	 */
 	public function get( $uri, $action ) {
 
-		$this->add_route( $uri, $action, 'get' )->where(['.*?']);
-
+		$this->add_route( $uri, $action, 'get' );
 		return $this;
 	}
+
+	/**
+	 * Add route for post request
+	 * @param  string $uri    The Route URL
+	 * @param  string $action Controller and Method
+	 * @return object         retruns Router object
+	 */
 	public function post( $uri, $action ) {
 
 		$this->add_route( $uri, $action, 'post' )->where(['.*?']);
 
 		return $this;
 	}
+
+	/**
+	 * Add route for put request
+	 * @param  string $uri    The Route URL
+	 * @param  string $action Controller and Method
+	 * @return object         retruns Router object
+	 */
 	public function put( $uri, $action ) {
 
 		$this->add_route( $uri, $action, 'put' )->where(['.*?']);
 
 		return $this;
 	}
+
+	/**
+	 * Add route for patch request
+	 * @param  string $uri    The Route URL
+	 * @param  string $action Controller and Method
+	 * @return object         retruns Router object
+	 */
 	public function patch( $uri, $action ) {
 
 		$this->add_route( $uri, $action, 'patch' )->where(['.*?']);
 
 		return $this;
 	}
+
+	/**
+	 * Add route for delete request
+	 * @param  string $uri    The Route URL
+	 * @param  string $action Controller and Method
+	 * @return object         retruns Router object
+	 */
 	public function delete( $uri, $action ) {
 
 		$this->add_route( $uri, $action, 'delete' )->where(['.*?']);
@@ -130,36 +257,17 @@ class Router {
 		return $this;
 	}
 
-	public function where( $paterns ) {
-		$this->actions[$this->action_method]['paterns'] = $paterns;
-	}
+	/**
+	 * Add regex pattern for query_vars
+	 * @param  array $patterns regex pattern
+	 * @return void
+	 */
+	public function where( $patterns ) {
 
-	public function add_paterns() {
-		if ( !empty( $this->matches ) ) {
-			foreach ( $this->matches as $key => $match ) {
-				$this->query_vars[ $key ] = '('.$match.')';
+		if ( is_array( $patterns ) ) {
+			foreach ( $patterns as $k => $pattern ) {
+				$this->routes[$this->action_method]['patterns'][$k] = $pattern;
 			}
 		}
-
-		// clean empty keys
-		foreach ($this->query_vars as $key => $value) {
-			if (isset( $this->query_vars[ $value ] )) {				
-				unset( $this->query_vars[ $value ] );
-			}
-		}
-
-		return $this;
-	}
-
-	public function add_routes() {
-		$this->routes[$this->action_method] = $this->get_uri_part();
-	}
-	public function get_query_vars() {
-
-		return $this->query_vars;
-	}
-
-	public function get_uri_part() {
-		return array_merge($this->uri_part, $this->query_vars);
 	}
 }
