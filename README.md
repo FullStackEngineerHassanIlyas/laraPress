@@ -1,3 +1,4 @@
+![LaraPress](logo.png?raw=true "LaraPress")
 # LaraPress
 
 ## Installation
