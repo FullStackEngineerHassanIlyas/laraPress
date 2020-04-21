@@ -13,7 +13,7 @@ class Router {
 	 * Routes array
 	 * @var array
 	 */
-	private $routes;
+	private $routes = [];
 
 	/**
 	 * WP_loader instance
