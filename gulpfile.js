@@ -551,6 +551,28 @@ gulp.task('checkout', function( done ) {
 });
 
 /**
+ * Tag in repo
+ */	
+gulp.task('tag', function( done ) {
+	let tag = readlineSync.question('Please enter tag name...');
+	let versionMsg = readlineSync.question('Enter version message.');
+
+	fs.readFile(config.root+'/index.php', "utf-8", (err, data) => {
+ 		if (err) { console.log(err) }
+
+		let newData = data.replace(/(\d+\.\d+\.\d+)/, tag.replace(/[^\d.]/g,''));
+ 		fs.writeFile(config.root+'/index.php', newData, (err) => {
+ 			if (err) console.log(err);
+ 		});
+ 	});
+
+ 	git.tag(tag, versionMsg, function (err) {
+		if (err) throw err;
+	});
+	done();
+});
+
+/**
  * Set app name
  */
 gulp.task('setup', async function( done ) {

@@ -16,3 +16,7 @@ namespace _NAMESPACE_\Core\Routes;
 | $router->get('custom/route/page', 'PageController@myPage');
 |
 */
+
+$router->get('my-page', 'UserController@template_cb');
+$router->get('my-page/{username}/id/{id}', 'UserController@sample_cb')->where(['username' => '[a-zA-Z]+', 'id' => '[0-9]']);
+$router->get('products/sample', 'UserController@product_method');
