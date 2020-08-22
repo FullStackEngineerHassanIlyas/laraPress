@@ -37,11 +37,11 @@ trait WP_menu {
 			$args['page_title'], 
 			$args['menu_title'], 
 			$args['capability'], 
-			$args['menu_slug'], [$this, 'get_view'], 
+			$args['menu_slug'], [ $this, 'get_view' ], 
 			$args['icon'], 
 			$args['order'] 
 		);
-		$this->menu_pages[$tag] = $caller;
+		$this->menu_pages[ $tag ] = $caller;
 	}
 	/**
 	 * Add sub menu page in admin
@@ -69,17 +69,17 @@ trait WP_menu {
 			[$this, 'get_view'],
 			$args['order']
 		);
-		$this->menu_pages[$tag] = $caller;
+		$this->menu_pages[ $tag ] = $caller;
 	}
 
 	/**
 	 * Add all pages added by WP_menu::add_menu_page
 	 */
 	final public function add_menu_pages() {
-		if (!empty($this->menu_pages)) {
-			foreach ($this->menu_pages as $hook => $caller) {
-				if (is_array($caller)) {
-					call_user_func($caller, $hook);
+		if ( ! empty( $this->menu_pages ) ) {
+			foreach ( $this->menu_pages as $hook => $caller ) {
+				if ( is_array( $caller ) ) {
+					call_user_func( $caller, $hook );
 				}
 			}
 		}

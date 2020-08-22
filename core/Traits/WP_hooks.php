@@ -16,13 +16,13 @@ trait WP_hooks {
 	 * @return void
 	 */
 	protected static function wp_ajax($action, $callable, $nopriv = false, $both = false) {
-		if ($nopriv) {
-			add_action("wp_ajax_nopriv_{$action}", $callable);
-			if ($both) {
-				add_action("wp_ajax_{$action}", $callable);
+		if ( $nopriv ) {
+			add_action( "wp_ajax_nopriv_{$action}", $callable );
+			if ( $both ) {
+				add_action( "wp_ajax_{$action}", $callable );
 			}
 		} else {
-			add_action("wp_ajax_{$action}", $callable);
+			add_action( "wp_ajax_{$action}", $callable );
 		}
 	}
 
@@ -32,9 +32,9 @@ trait WP_hooks {
 	 * @param  boolean $json  Wheather output is json, DEFAULT true
 	 * @return string         returned output
 	 */
-	protected function output($input, $json = true) {
-		if ($json) {
-			echo json_encode($input);
+	protected function output( $input, $json = true ) {
+		if ( $json ) {
+			echo json_encode( $input );
 			exit;
 		}
 		echo $input;

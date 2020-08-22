@@ -10,6 +10,10 @@ trait WP_db {
 	public $wpdb;
 	protected $db;
 
+	/**
+	 * Init the Eloquent.
+	 * @return void
+	 */
 	function initDB() {
 
 		global $wpdb;

@@ -59,7 +59,7 @@ class ControllerCommand extends Command {
 
 			if ( is_array( $handler ) && !empty( $handler ) ) {
 				$usingHandler 	  = implode( ",\n\t\t", $handler );
-				$nameSpaceHandler = implode(', ', $handler);
+				$nameSpaceHandler = implode( ', ', $handler );
 
 				if ( count($handler) > 1 ) {
 					$nameSpaceHandler = '{ ' .$nameSpaceHandler. ' }';
@@ -67,35 +67,38 @@ class ControllerCommand extends Command {
 
 				if ( $isCreate ) {
 					// We will create trait file
-					$sampleTraitText = file_get_contents($this->root . '/core/samples/SampleTrait.php');
+					$sampleTraitText = file_get_contents( $this->root . '/core/samples/SampleTrait.php' );
 
 
 					foreach ($handler as $key => $_handler) {
 						$sampleTraitTextReplaced = str_replace( 'SampleTrait', $_handler, $sampleTraitText );
 
-						file_put_contents( $this->root . '/app/traits/'.$_handler.'.php', $sampleTraitTextReplaced );
+						file_put_contents( $this->root . '/app/traits/' . $_handler . '.php', $sampleTraitTextReplaced );
 					}
 				}
 			}
 
 			$text = '<info>Controller "'. $controllerName . '" Created!</info>';
-			$sampleText = file_get_contents($this->root . '/core/samples/SampleController.php');
+			$sampleText = file_get_contents( $this->root . '/core/samples/SampleController.php' );
 
 			$sampleText = str_replace( [
-				'SampleController', !empty( $handler ) ? 'SampleHandler' : 'use SampleHandler;', !empty( $handler ) ? 'HandlerNamespace' : 'use _NAMESPACE_\App\Traits\HandlerNamespace;'
-				], [
-				 $controllerName, $usingHandler, $nameSpaceHandler 
+				'SampleController', !empty( $handler ) ? 'SampleHandler' : 'use SampleHandler;', ! empty( $handler ) ? 'HandlerNamespace' : 'use _NAMESPACE_\App\Traits\HandlerNamespace;'
+				], 
+				[
+					$controllerName, 
+					$usingHandler, 
+					$nameSpaceHandler 
 				], 
 				$sampleText 
 			);
 
-			file_put_contents($this->root . '/app/Controllers/'.$controllerName.'.php', $sampleText);
+			file_put_contents( $this->root . '/app/Controllers/' . $controllerName . '.php', $sampleText );
 
 		} else {
 			$text = '<error>Please specify controller name</error>';
 		}
 
-		$output->writeln($text);
+		$output->writeln( $text );
 
 		return 0;
 	}

@@ -28,9 +28,9 @@ abstract class WP_Main {
 		# routes
 		require config_path('routes.php');
 
-		add_action( 'init', [$this, 'flush_rewirtes'] );
-		add_action( 'init', [$router, 'prepare_routes'] );
-		add_action( 'wp', [$router, 'routes_view'] );
+		add_action( 'init', [ $this, 'flush_rewirtes' ] );
+		add_action( 'init', [ $router, 'prepare_routes' ] );
+		add_action( 'wp', [ $router, 'routes_view' ] );
 	}
 	public function flush_rewirtes() {
     	global $wp_rewrite;

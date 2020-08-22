@@ -40,7 +40,7 @@ class Router {
 	 * @param  mixed $value
 	 * @return void
 	 */
-	private function dump($value) {
+	private function dump( $value ) {
 		echo '<pre>';
 		print_r($value);
 		echo '</pre>';
@@ -52,7 +52,7 @@ class Router {
 	 * @return mixed
 	 */
 	public function __get( $key ) {
-		return $this->{$key};
+		return $this->{ $key };
 	}
 
 	/**
@@ -60,7 +60,7 @@ class Router {
 	 * @return object returns Router instance object
 	 */
 	public static function instance() {
-		if ( !self::$_instance instanceof self ) {
+		if ( ! self::$_instance instanceof self ) {
 			self::$_instance = new self;
 		}
 		return self::$_instance;
@@ -73,26 +73,26 @@ class Router {
 	 * @param string $request_method HTTP request method
 	 */
 	private function add_route( $uri, $action, $request_method = 'get' ) {
-		preg_match_all('/{([^}]*)}/', $uri, $matches);
-		$uri = str_replace(['{', '}', '?'], ['(', ')', ''], $uri);
-		$uri_segments = explode('/(', $uri);
-		$page 		  =	current($uri_segments);
-		$pagename 	  = str_replace('/', '_', $page);
+		preg_match_all( '/{([^}]*)}/', $uri, $matches );
+		$uri = str_replace( [ '{', '}', '?' ], [ '(', ')', '' ], $uri );
+		$uri_segments = explode( '/(', $uri );
+		$page 		  =	current( $uri_segments );
+		$pagename 	  = str_replace( '/', '_', $page );
 
-		$action_parts 	= explode('@', $action);
+		$action_parts 	= explode( '@', $action );
 
-		$this->action_method = end($action_parts);
+		$this->action_method = end( $action_parts );
 
-		$patterns = array_flip($matches[1]);
+		$patterns = array_flip( $matches[1] );
 
 		// if there is any query vars, set default pattern for them
-		array_walk($patterns, function( &$v, $k ) { $v = '[.*?]';});
+		array_walk( $patterns, function( &$v, $k ) { $v = '[.*?]';} );
 
-		$this->routes[$this->action_method] = [
+		$this->routes[ $this->action_method ] = [
 			'uri' 		=> $uri,
 			'page' 		=> $page,
 			// 'pagename' => $pagename . '_' . $this->action_method,
-			'pagename' 	=> strtolower( str_replace('@', '__', $action) ),
+			'pagename' 	=> strtolower( str_replace( '@', '__', $action ) ),
 			'action' 	=> $action,
 			'method' 	=> $request_method,
 			'matches' 	=> $matches[1],
@@ -112,12 +112,12 @@ class Router {
 		$query_str = '';
 		$regex_str = '';
 
-		if ( !empty($tags) ) {
+		if ( ! empty( $tags ) ) {
 			$i = 1;
-			foreach ($tags as $tag => $regex) {
+			foreach ( $tags as $tag => $regex ) {
 				add_rewrite_tag( "%{$tag}%", $regex );
-				$query_str .= '&'.$tag.'=$matches['.$i.']';
-				$regex_str .= '/('.$regex.')';
+				$query_str .= '&' . $tag . '=$matches[' . $i . ']';
+				$regex_str .= '/(' . $regex . ')';
 				$i++;
 
 				# TODO: check this later
@@ -136,7 +136,7 @@ class Router {
 	private function register_routes() {
 		foreach ( $this->routes as $route => $route_array ) {
 			foreach ( $route_array['patterns'] as $k => $value ) {
-				$this->routes[ $route ][ 'uri' ] = str_replace("({$k})", "({$value})", $this->routes[ $route ][ 'uri' ]);
+				$this->routes[ $route ][ 'uri' ] = str_replace( "({$k})", "({$value})", $this->routes[ $route ][ 'uri' ] );
 			}
 		}
 
@@ -148,13 +148,13 @@ class Router {
 	 * @return void
 	 */
 	public function prepare_routes() {
-		foreach ($this->register_routes() as $key => $route) {
+		foreach ( $this->register_routes() as $key => $route ) {
 			// $page 		= '^'.$route['page'];
-			$page 		= '^'.$route['uri'];
-			$redirect 	= 'index.php?pagename='.$route['pagename'];
+			$page 		= '^' . $route['uri'];
+			$redirect 	= 'index.php?pagename=' . $route['pagename'];
 			$query_str  = $this->make_rewrite_tags( $route['patterns'], $page, $redirect );
 
-			add_rewrite_rule( $page . '/?$', $redirect.$query_str, 'top' );
+			add_rewrite_rule( $page . '/?$', $redirect . $query_str, 'top' );
 		}
 	}
 
@@ -164,15 +164,15 @@ class Router {
 	 */
 	public function routes_view() {
 
-		foreach ($this->routes as $route) {
-			$route_parts 	= explode('@', $route['action']);
-			$controller 	= current($route_parts);
-			$method 		= end($route_parts);
+		foreach ( $this->routes as $route ) {
+			$route_parts 	= explode( '@', $route['action'] );
+			$controller 	= current( $route_parts );
+			$method 		= end( $route_parts );
 			$controllerObj  = $this->_wp_loader->controllerInstances[ $controller ];
-			$params 		= array_keys($route['patterns']);
+			$params 		= array_keys( $route['patterns'] );
 			$args 			= [];
 
-			foreach ($params as $param) {
+			foreach ( $params as $param ) {
 				$args[] = get_query_var( $param );
 			}
 
@@ -181,7 +181,7 @@ class Router {
 					wp_die( $_SERVER['REQUEST_METHOD'] . ' method is not allowed for this route!', __('Method not allowed!') );
 				}
 
-				if ( method_exists($this->_wp_loader->controllerInstances[ $controller ], $method) ) {
+				if ( method_exists( $this->_wp_loader->controllerInstances[ $controller ], $method ) ) {
 
 					add_filter( 'template_include', function( $template ) use ( $controllerObj, $method, $args ) {
 						$args[] = $template;
@@ -213,7 +213,7 @@ class Router {
 	 */
 	public function post( $uri, $action ) {
 
-		$this->add_route( $uri, $action, 'post' )->where(['.*?']);
+		$this->add_route( $uri, $action, 'post' )->where( ['.*?'] );
 
 		return $this;
 	}
@@ -226,7 +226,7 @@ class Router {
 	 */
 	public function put( $uri, $action ) {
 
-		$this->add_route( $uri, $action, 'put' )->where(['.*?']);
+		$this->add_route( $uri, $action, 'put' )->where( ['.*?'] );
 
 		return $this;
 	}
@@ -239,7 +239,7 @@ class Router {
 	 */
 	public function patch( $uri, $action ) {
 
-		$this->add_route( $uri, $action, 'patch' )->where(['.*?']);
+		$this->add_route( $uri, $action, 'patch' )->where( ['.*?'] );
 
 		return $this;
 	}
@@ -252,7 +252,7 @@ class Router {
 	 */
 	public function delete( $uri, $action ) {
 
-		$this->add_route( $uri, $action, 'delete' )->where(['.*?']);
+		$this->add_route( $uri, $action, 'delete' )->where( ['.*?'] );
 
 		return $this;
 	}
@@ -266,7 +266,7 @@ class Router {
 
 		if ( is_array( $patterns ) ) {
 			foreach ( $patterns as $k => $pattern ) {
-				$this->routes[$this->action_method]['patterns'][$k] = $pattern;
+				$this->routes[ $this->action_method ]['patterns'][ $k ] = $pattern;
 			}
 		}
 	}

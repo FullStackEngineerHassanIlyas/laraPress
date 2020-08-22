@@ -6,7 +6,7 @@ namespace _NAMESPACE_\Core\Classes;
  * Include WP list table core class
  * if not already added
  */
-if(!class_exists('WP_List_Table')){
+if( ! class_exists('WP_List_Table') ){
 	require_once( ABSPATH . 'wp-admin/includes/screen.php' );
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
@@ -23,11 +23,11 @@ abstract class WP_table extends \WP_List_Table {
 		$_data = [],
 		$viwe_links = [],
 
-		$bulk_actions = [],
-		$default_columns = [],
-		$sortable_columns = [],
-		$columns = [],
-		$order_column = 'id';
+		$order_column 		= 'id',
+		$bulk_actions 		= [],
+		$default_columns 	= [],
+		$sortable_columns 	= [],
+		$columns 			= [];
 
 	/**
 	 * Constructor
@@ -37,40 +37,40 @@ abstract class WP_table extends \WP_List_Table {
 	 *
 	 * @param array|string $args Array or string of arguments.
 	 */
-	function __construct(array $args = []){
+	function __construct( array $args = [] ){
 
-		parent::__construct($args);
+		parent::__construct( $args );
 	}
 
 	private static $addedClosures = [];
 
-    public function __set($name, $value) {
-        if ($value instanceof \Closure) {
-            self::$addedClosures[$name] = $value;
+    public function __set( $name, $value ) {
+        if ( $value instanceof \Closure ) {
+            self::$addedClosures[ $name ] = $value;
         } else {
-            parent::__set($name, $value);
+            parent::__set( $name, $value );
         }
     }
 
-    public function __get($name) {
+    public function __get( $name ) {
     	return $this->$name;
     }
 
-    public function __isset($name) {
-    	return isset($this->$name);
+    public function __isset( $name ) {
+    	return isset( $this->$name );
     }
 
-    public function __call($method, $arguments) {
-        if (isset(self::$addedClosures[$method]))
-            return call_user_func_array(self::$addedClosures[$method], $arguments);
-        return call_user_func_array($method, $arguments);
+    public function __call( $method, $arguments ) {
+        if ( isset( self::$addedClosures[ $method ] ) )
+            return call_user_func_array( self::$addedClosures[ $method ], $arguments );
+        return call_user_func_array( $method, $arguments );
     }
 
     /**
      * Set view links for get view links
      * @param array $viwe_links
      */
-    public function set_views($viwe_links = []) {
+    public function set_views( $viwe_links = [] ) {
     	$this->viwe_links = $viwe_links;
     }
 
@@ -92,7 +92,7 @@ abstract class WP_table extends \WP_List_Table {
 	 * Set default columns for table
 	 * @param array $columns
 	 */
-	public function set_default_columns($columns) {
+	public function set_default_columns( $columns ) {
 		$this->default_columns = $columns;
 	}
 
@@ -102,9 +102,9 @@ abstract class WP_table extends \WP_List_Table {
 	 * @param  string $column_name Column name to be default
 	 * @return array
 	 */
-	public function column_default($item, $column_name) {
-		if (in_array($column_name, $this->default_columns)) {
-			return $item[$column_name];
+	public function column_default( $item, $column_name ) {
+		if ( in_array( $column_name, $this->default_columns ) ) {
+			return $item[ $column_name ];
 		}
 	}
 
@@ -112,7 +112,7 @@ abstract class WP_table extends \WP_List_Table {
 	 * Set sortable columns
 	 * @param array $columns
 	 */
-	public function set_sortable_columns($columns) {
+	public function set_sortable_columns( $columns ) {
 		$this->sortable_columns = $columns;
 	}
 
@@ -136,7 +136,7 @@ abstract class WP_table extends \WP_List_Table {
 		// If no order, default to asc
 		$order = ( ! empty($_GET['order'] ) ) ? $_GET['order'] : 'asc';
 		// Determine sort order
-		$result = strcmp( $a[$orderby], $b[$orderby] );
+		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
 		// Send final sort direction to usort
 		return ( $order === 'asc' ) ? $result : -$result;
 	}
@@ -145,7 +145,7 @@ abstract class WP_table extends \WP_List_Table {
 	 * Set Bullk actions
 	 * @param array $bulk_actions
 	 */
-	public function set_bulk_actions($bulk_actions) {
+	public function set_bulk_actions( $bulk_actions ) {
 		$this->bulk_actions = $bulk_actions;
 	}
 
@@ -162,9 +162,9 @@ abstract class WP_table extends \WP_List_Table {
 	 * @param  callable $callback
 	 * @return callable
 	 */
-	public function process_bulk_action($callback = '') {
-		if (is_callable($callback)) {
-			return $callback($this->current_action());
+	public function process_bulk_action( $callback = '' ) {
+		if ( is_callable( $callback ) ) {
+			return $callback( $this->current_action() );
 		}
 	}
 
@@ -172,7 +172,7 @@ abstract class WP_table extends \WP_List_Table {
 	 * Set table columns
 	 * @param array $columns
 	 */
-	public function set_columns($columns) {
+	public function set_columns( $columns ) {
 		$this->columns = $columns;
 	}
 
@@ -188,7 +188,7 @@ abstract class WP_table extends \WP_List_Table {
 	 * Set table order column
 	 * @param string $column
 	 */
-	public function set_order_column($column) {
+	public function set_order_column( $column ) {
 		$this->order_column = $column;
 	}
 
@@ -201,25 +201,25 @@ abstract class WP_table extends \WP_List_Table {
 		$columns = $this->get_columns();
 		$h_idden = [];
 		$sortable = $this->get_sortable_columns();
-		$this->_column_headers = [$columns, $h_idden, $sortable];
+		$this->_column_headers = [ $columns, $h_idden, $sortable ];
 
 		$data = $this->table_data();
-		usort( $data, [&$this, 'usort_reorder' ] );
+		usort( $data, [ &$this, 'usort_reorder' ] );
 
 		$this->process_bulk_action();
 
 		$per_page = 10;
 		$current_page = $this->get_pagenum();
-		$total_items = count($data);
+		$total_items = count( $data );
 
-		$this->_data = array_slice($data,(($current_page-1)*$per_page),$per_page);
+		$this->_data = array_slice( $data, ( ( $current_page-1 ) * $per_page ), $per_page );
 
 		$this->items = $this->_data;
 
 		$this->set_pagination_args([
 			'total_items' => $total_items,                  // WE have to calculate the total number of items
 			'per_page'    => $per_page,                     // WE have to determine how many items to show on a page
-			'total_pages' => ceil($total_items/$per_page)	// WE have to calculate the total number of pages
+			'total_pages' => ceil( $total_items / $per_page )	// WE have to calculate the total number of pages
 		]);
 	}
 
