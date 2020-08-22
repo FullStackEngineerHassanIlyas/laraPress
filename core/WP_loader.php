@@ -110,11 +110,11 @@ class WP_loader {
 	 * @retun void
 	 */
 	private function load( $filePath ) {
-		$filePath = trim( str_replace( '.php', '', $filePath ), '/' );
+		$relativePath = str_replace( [ PLUGIN_NAME_PATH, '.php' ], '', $filePath );
 
-		$filePath = str_replace(PLUGIN_NAME_PATH, '', $filePath);
+		$relativePath = trim( $relativePath, '/' );
 
-		$file = PLUGIN_NAME_PATH.'/'.$filePath.'.php';
+		$file = PLUGIN_NAME_PATH . '/'. $relativePath . '.php';
 		if ( file_exists( $file ) ) {
 			require $file;
 		}
