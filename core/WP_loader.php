@@ -84,11 +84,11 @@ class WP_loader {
 	 * @return void
 	 */
 	public function bootControllers() {
-		if (!empty($this->_controllers)) {
-			foreach ($this->_controllers as $key => $controller) {
-				$namespacedController = '_NAMESPACE_\App\Controllers\\'.$controller;
-				$this->controllerInstances[$controller] = new $namespacedController;
-			}			
+		if ( ! empty( $this->_controllers ) ) {
+			foreach ( $this->_controllers as $key => $controller ) {
+				$namespacedController = '_NAMESPACE_\\App\\Controllers\\' . $controller;
+				$this->controllerInstances[ $controller ] = new $namespacedController;
+			}
 		}
 	}
 
@@ -97,7 +97,7 @@ class WP_loader {
 	 * @return WP_loader instance
 	 */
     public static function getInstance() {
-        if (!(self::$_instance instanceof self)) {
+        if ( ! ( self::$_instance instanceof self ) ) {
             self::$_instance = new self;
         }
         return self::$_instance;
@@ -110,11 +110,11 @@ class WP_loader {
 	 * @retun void
 	 */
 	private function load( $filePath ) {
-		$filePath = trim( str_replace( '.php', '', $filePath ), '/' );
+		$relativePath = str_replace( [ PLUGIN_NAME_PATH, '.php' ], '', $filePath );
 
-		$filePath = str_replace(PLUGIN_NAME_PATH, '', $filePath);
+		$relativePath = trim( $relativePath, '/' );
 
-		$file = PLUGIN_NAME_PATH.'/'.$filePath.'.php';
+		$file = PLUGIN_NAME_PATH . '/'. $relativePath . '.php';
 		if ( file_exists( $file ) ) {
 			require $file;
 		}
@@ -132,12 +132,13 @@ class WP_loader {
 
 		$targetDirectory = ucfirst( $directorySegments[1] );
 
-		$directory = $directorySegments[0] .'/'. $targetDirectory;
+		$directory = $directorySegments[0] . '/' . $targetDirectory;
 
-		foreach ( glob(PLUGIN_NAME_PATH .'/'. $directory.'/*.php') as $key => $file ) {
+		$files = glob( PLUGIN_NAME_PATH .'/'. $directory . '/*.php' );
+		foreach ( $files as $key => $file ) {
 			$this->load( $file );
 
-			if ( $directorySegments[0] == 'app' && $targetDirectory == 'Controllers' ) {
+			if ( $directorySegments[0] == 'app' && strtolower( $targetDirectory ) == 'controllers' ) {
 
 				$this->_controllersPath[ $key ] = $file;
 			}
@@ -149,9 +150,9 @@ class WP_loader {
 	 * @return void
 	 */
 	private function registerControllers() {
-		if ( !empty( $this->_controllersPath ) ) {
+		if ( ! empty( $this->_controllersPath ) ) {
 			foreach ( $this->_controllersPath as $key => $path ) {
-				$class = basename($path, '.php');
+				$class = basename( $path, '.php' );
 				$this->_controllers[ $key ] = $class;
 			}
 		}
@@ -163,7 +164,7 @@ class WP_loader {
 	 * @return void
 	 */
 	public function trait( $filePath ) {
-		$this->load( 'app/traits/'.$filePath );
+		$this->load( 'app/traits/' . $filePath );
 	}
 	/**
 	 * Load app class
@@ -171,7 +172,7 @@ class WP_loader {
 	 * @return void
 	 */
 	public function class( $filePath ) {
-		$this->load( 'app/classes/'.$filePath );
+		$this->load( 'app/classes/' . $filePath );
 	}
 	/**
 	 * Load model class
@@ -179,7 +180,7 @@ class WP_loader {
 	 * @return void
 	 */
 	public function model( $filePath ) {
-		$this->load( 'app/models/'.$filePath );
+		$this->load( 'app/models/' . $filePath );
 	}
 	
 }

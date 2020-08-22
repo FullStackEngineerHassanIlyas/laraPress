@@ -22,12 +22,12 @@ use _NAMESPACE_\App\App;
  * License:     GPL v2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
-defined('ABSPATH') || exit('No direct script access allowed');
+defined( 'ABSPATH' ) || exit('No direct script access allowed');
 
-define('PLUGIN_NAME', basename(__DIR__));
-define('PLUGIN_NAME_URL', plugin_dir_url( __FILE__ ));
-define('PLUGIN_NAME_PATH', WP_PLUGIN_DIR.'/'.PLUGIN_NAME);
+define( 'PLUGIN_NAME', basename(__DIR__) );
+define( 'PLUGIN_NAME_URL', plugin_dir_url( __FILE__ ) );
+define( 'PLUGIN_NAME_PATH', WP_PLUGIN_DIR . '/' . PLUGIN_NAME );
 
-require_once PLUGIN_NAME_PATH.'/core/WP_loader.php';
+require_once PLUGIN_NAME_PATH . '/core/WP_loader.php';
 $loader = new WP_loader;
 $app = new App( $loader );

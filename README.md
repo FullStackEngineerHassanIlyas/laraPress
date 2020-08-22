@@ -30,4 +30,4 @@ The above command will use a `Trait` in your `SampleController`class
     	...
     }
 
-#### Version 0.17.1
+#### Version 0.17.2
