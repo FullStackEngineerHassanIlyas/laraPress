@@ -163,7 +163,8 @@ class Router {
 	 * @return void
 	 */
 	public function routes_view() {
-
+		global $wp_query;
+		
 		foreach ( $this->routes as $route ) {
 			$route_parts 	= explode( '@', $route['action'] );
 			$controller 	= current( $route_parts );
