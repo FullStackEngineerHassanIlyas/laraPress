@@ -182,9 +182,10 @@ class Router {
 				}
 
 				if ( method_exists( $this->_wp_loader->controllerInstances[ $controller ], $method ) ) {
+					status_header( 200 );
+					$wp_query->is_404 = false;
 
 					add_filter( 'template_include', function( $template ) use ( $controllerObj, $method, $args ) {
-						status_header( 200 );
 						$args[] = $template;
 
 						return $controllerObj->$method( ...$args );
