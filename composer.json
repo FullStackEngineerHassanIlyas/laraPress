@@ -9,9 +9,8 @@
         "classmap": ["core/Commands"]
     },
     "require": {
-        "illuminate/database": "^6.10",
-        "duncan3dc/blade": "^4.8",
-        "illuminate/routing": "^6.0",
-        "symfony/console": "^5.0"
+        "illuminate/database": "^7.30.3",
+        "duncan3dc/blade": "^4.10",
+        "symfony/console": "^5.1.4"
     }
 }
