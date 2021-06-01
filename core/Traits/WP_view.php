@@ -13,7 +13,7 @@ trait WP_view {
 	 */
     protected 
 		$views = [],
-		$args = [];
+		$args  = [];
 
 	/**
 	 * Loads view file
@@ -24,6 +24,13 @@ trait WP_view {
 	protected function view( $view, $args = [] ) {
 		if ( ! empty( $args )) extract( $args );
 		if ( wp_is_json_request() ) return;
+
+		if ( ! empty( $args['title'] ) ) {
+			add_filter('pre_get_document_title', function( $title ) use ( $args ) {
+				return ! empty( $args['title'] ) ? $args['title'] : $title;
+			}, 10, 1);
+		}
+
 		$this->useBlade( $view, $args );
 	}
 
