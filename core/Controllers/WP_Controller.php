@@ -3,6 +3,7 @@
 namespace _NAMESPACE_\Core\Controllers;
 
 use _NAMESPACE_\Core\Traits\{ WP_menu, WP_hooks, WP_view };
+use _NAMESPACE_\Core\Middleware\WP_Request;
 use duncan3dc\Laravel\BladeInstance;
 
 /**
@@ -28,6 +29,8 @@ class WP_Controller {
 	function __construct() {
 		$this->blade = new BladeInstance( PLUGIN_NAME_PATH . '/app/views', PLUGIN_NAME_PATH . '/app/cache/views' );
 		add_action( 'admin_menu', [ $this, 'add_menu_pages' ], 11 );
+
+		$this->request = new WP_Request;
 	}
 
 }
