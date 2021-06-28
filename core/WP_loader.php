@@ -48,6 +48,9 @@ class WP_loader {
 		# loading intefaces
 		$this->load( 'core/Interfaces/WP_menu_interface' );
 
+		# loading middlewares
+		$this->loadAll( 'core/Middleware' );
+
 		# loading services
 		$this->loadAll( 'core/Services' );
 		# loading classes
