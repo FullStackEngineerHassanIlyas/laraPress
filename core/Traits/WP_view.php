@@ -16,10 +16,18 @@ trait WP_view {
 		$args  = [];
 
 	/**
+	 * View and arguments for blade view
+	 */
+	public $bladeView,
+		   $bladeArgs;
+
+	/**
 	 * Loads view file
+	 * 
 	 * @param  string $view Path to the view file.
 	 * @param  array  $args The Data passed to the view.
-	 * @return void
+	 * 
+	 * @return duncan3dc\Laravel\BladeInstance
 	 */
 	protected function view( $view, $args = [] ) {
 		if ( ! empty( $args )) extract( $args );
@@ -30,8 +38,10 @@ trait WP_view {
 				return ! empty( $args['title'] ) ? $args['title'] : $title;
 			}, 10, 1);
 		}
+		$this->bladeView = $view;
+		$this->bladeArgs = $args;
 
-		$this->useBlade( $view, $args );
+		return $this->blade;
 	}
 
 	/**
@@ -43,7 +53,7 @@ trait WP_view {
 		$tag  = current_action();
 		$view = $this->views[ $tag ];
 		$args = $this->args[ $tag ];
-		$this->view( $view, $args );
+		$this->useBlade( $view, $args );
 	}
 
 	/**
