@@ -3,6 +3,7 @@
 namespace _NAMESPACE_\Core\Services;
 
 use _NAMESPACE_\Core\WP_loader;
+use duncan3dc\Laravel\BladeInstance;
 
 /**
  * Router
@@ -74,14 +75,12 @@ class Router {
 	 */
 	private function add_route( $uri, $action, $request_method = 'get' ) {
 		preg_match_all( '/{([^}]*)}/', $uri, $matches );
-		$uri = str_replace( [ '{', '}', '?' ], [ '(', ')', '' ], $uri );
+		$uri 		  = str_replace( [ '{', '}', '?' ], [ '(', ')', '' ], $uri );
 		$uri_segments = explode( '/(', $uri );
 		$page 		  =	current( $uri_segments );
-		$pagename 	  = str_replace( '/', '_', $page );
+		$pagename 	  = strtolower( str_replace( '@', '__', $action ) );
 
-		$action_parts 	= explode( '@', $action );
-
-		$this->action_method = end( $action_parts );
+		$this->action_method = $pagename;
 
 		$patterns = array_flip( $matches[1] );
 
@@ -91,8 +90,7 @@ class Router {
 		$this->routes[ $this->action_method ] = [
 			'uri' 		=> $uri,
 			'page' 		=> $page,
-			// 'pagename' => $pagename . '_' . $this->action_method,
-			'pagename' 	=> strtolower( str_replace( '@', '__', $action ) ),
+			'pagename' 	=> $pagename,
 			'action' 	=> $action,
 			'method' 	=> $request_method,
 			'matches' 	=> $matches[1],
@@ -110,18 +108,13 @@ class Router {
 	 */
 	private function make_rewrite_tags( $tags ) {
 		$query_str = '';
-		$regex_str = '';
 
 		if ( ! empty( $tags ) ) {
 			$i = 1;
 			foreach ( $tags as $tag => $regex ) {
 				add_rewrite_tag( "%{$tag}%", $regex );
 				$query_str .= '&' . $tag . '=$matches[' . $i . ']';
-				$regex_str .= '/(' . $regex . ')';
 				$i++;
-
-				# TODO: check this later
-				// add_rewrite_rule( $page . $regex_str . '/?$', $redirect . $query_str, 'top' );
 			}
 		}
 
@@ -149,10 +142,9 @@ class Router {
 	 */
 	public function prepare_routes() {
 		foreach ( $this->register_routes() as $key => $route ) {
-			// $page 		= '^'.$route['page'];
 			$page 		= '^' . $route['uri'];
 			$redirect 	= 'index.php?pagename=' . $route['pagename'];
-			$query_str  = $this->make_rewrite_tags( $route['patterns'], $page, $redirect );
+			$query_str  = $this->make_rewrite_tags( $route['patterns'] );
 
 			add_rewrite_rule( $page . '/?$', $redirect . $query_str, 'top' );
 		}
@@ -162,10 +154,13 @@ class Router {
 	 * Routes page template view
 	 * @return void
 	 */
-	public function routes_view() {
+	public function routes_view( $wp ) {
 		global $wp_query;
 		
-		foreach ( $this->routes as $route ) {
+		$route_name = get_query_var( 'pagename' );
+
+		if ( array_key_exists( $route_name, $this->routes ) ) {
+			$route 			= $this->routes[ $route_name ];
 			$route_parts 	= explode( '@', $route['action'] );
 			$controller 	= current( $route_parts );
 			$method 		= end( $route_parts );
@@ -174,25 +169,30 @@ class Router {
 			$args 			= [];
 
 			foreach ( $params as $param ) {
-				$args[] = get_query_var( $param );
+				if ( ! empty( $param ) ) {
+					$args[] = get_query_var( $param );					
+				}
 			}
 
-			if ( get_query_var( 'pagename' ) == $route['pagename'] ) {
-				if ( $_SERVER['REQUEST_METHOD'] !== strtoupper( $route['method'] ) ) {
-					wp_die( $_SERVER['REQUEST_METHOD'] . ' method is not allowed for this route!', __('Method not allowed!') );
-				}
+			if ( $_SERVER['REQUEST_METHOD'] !== strtoupper( $route['method'] ) ) {
+				wp_die( $_SERVER['REQUEST_METHOD'] . ' method is not allowed for this route!', __('Method not allowed!') );
+			}
 
-				if ( method_exists( $this->_wp_loader->controllerInstances[ $controller ], $method ) ) {
-					status_header( 200 );
-					$wp_query->is_404 = false;
+			if ( method_exists( $controllerObj, $method ) ) {
+				status_header( 200 );
+				$wp_query->is_404 = false;
+				$args[] = $controllerObj->request;
 
+				$controllerCallee = $controllerObj->$method( ... $args );
+
+				if ( $controllerCallee instanceof BladeInstance ) {
 					add_filter( 'template_include', function( $template ) use ( $controllerObj, $method, $args ) {
 						$args[] = $template;
 
-						return $controllerObj->$method( ...$args );
+						echo $controllerObj->$method( ... $args )->render( $controllerObj->bladeView, $controllerObj->bladeArgs );
 					}, 10, 1 );
 				}
-			}			
+			}
 		}
 	}
 
@@ -203,8 +203,8 @@ class Router {
 	 * @return object         retruns Router object
 	 */
 	public function get( $uri, $action ) {
-
 		$this->add_route( $uri, $action, 'get' );
+
 		return $this;
 	}
 
@@ -215,8 +215,7 @@ class Router {
 	 * @return object         retruns Router object
 	 */
 	public function post( $uri, $action ) {
-
-		$this->add_route( $uri, $action, 'post' )->where( ['.*?'] );
+		$this->add_route( $uri, $action, 'post' );
 
 		return $this;
 	}
@@ -228,8 +227,7 @@ class Router {
 	 * @return object         retruns Router object
 	 */
 	public function put( $uri, $action ) {
-
-		$this->add_route( $uri, $action, 'put' )->where( ['.*?'] );
+		$this->add_route( $uri, $action, 'put' );
 
 		return $this;
 	}
@@ -241,8 +239,7 @@ class Router {
 	 * @return object         retruns Router object
 	 */
 	public function patch( $uri, $action ) {
-
-		$this->add_route( $uri, $action, 'patch' )->where( ['.*?'] );
+		$this->add_route( $uri, $action, 'patch' );
 
 		return $this;
 	}
@@ -254,8 +251,7 @@ class Router {
 	 * @return object         retruns Router object
 	 */
 	public function delete( $uri, $action ) {
-
-		$this->add_route( $uri, $action, 'delete' )->where( ['.*?'] );
+		$this->add_route( $uri, $action, 'delete' );
 
 		return $this;
 	}
@@ -266,7 +262,6 @@ class Router {
 	 * @return void
 	 */
 	public function where( $patterns ) {
-
 		if ( is_array( $patterns ) ) {
 			foreach ( $patterns as $k => $pattern ) {
 				$this->routes[ $this->action_method ]['patterns'][ $k ] = $pattern;
